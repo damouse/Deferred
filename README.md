@@ -6,9 +6,7 @@ This library orchestrates handler functions by chaining them together, convertin
 
 ## Installation
 
-You can install this library through Cocoapods or SPM. 
-
-Coming soon. 
+Install me through Cocoapods or SPM... soon. If you're intested in this library, bug `damouse`!
 
 ## Quick Start
 
