@@ -5,6 +5,7 @@
 //  Created by damouse on 5/4/16.
 //  Copyright © 2016 I. All rights reserved.
 //
+// I'm considering 
 
 import Foundation
 
