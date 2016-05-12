@@ -5,9 +5,21 @@
 //  Created by damouse on 5/4/16.
 //  Copyright © 2016 I. All rights reserved.
 //
-// I'm considering 
+
 
 import Foundation
+
+
+public enum ConversionError : ErrorType, CustomStringConvertible {
+    case NoConversionPossible(from: Any.Type, type: Any.Type)
+    
+    public var description: String {
+        switch self {
+        case .NoConversionPossible(from: let from, type: let type): return "Cant convert \"\(from)\"- cast failed or \"\(type)\" does not implement Convertible"
+        }
+    }
+}
+
 
 protocol Convertible {
     // Convert the given argument to this type
