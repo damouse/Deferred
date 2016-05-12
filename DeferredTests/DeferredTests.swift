@@ -10,131 +10,155 @@
 import XCTest
 @testable import Deferred
 
+// Success propogation and and handling
 class CallbackTest: XCTestCase {
-    func testDefaultCallback() {
-        let expectation = expectationWithDescription("Default callbacks should succeed")
-        
+    func testDefault() {
+        let e1 = expectationWithDescription("")
         let d = Deferred<Void>()
         
         d.then {
-            XCTAssert(true)
-            expectation.fulfill()
+            e1.fulfill()
         }
         
         d.callback([])
+        waitForExpectationsWithTimeout(1.0, handler:nil)
+    }
+
+    func testChain() {
+        let e1 = expectationWithDescription("")
+        let e2 = expectationWithDescription("")
+        
+        let d = Deferred<Void>()
+
+        d.then {
+            e1.fulfill()
+        }.then {
+            e2.fulfill()
+        }
+        
+        d.callback([])
+        waitForExpectationsWithTimeout(1.0, handler:nil)
+    }
+    
+    // immediately fire callback handler if the chain has already been called back
+//    func testLazy() {
+//        let e1 = expectationWithDescription("")
+//        let d = Deferred<Void>()
+//        
+//        d.callback([])
+//        
+//        d.then {
+//            e1.fulfill()
+//        }
+//        
+//        waitForExpectationsWithTimeout(1.0, handler:nil)
+//    }
+    
+    // Waiting for an internal deferred to resolve
+    func testNested() {
+        let e1 = expectationWithDescription("")
+        let e2 = expectationWithDescription("")
+        let e3 = expectationWithDescription("")
+        
+        let d = Deferred<Void>()
+        let f = Deferred<Void>()
+        
+        f.then {
+            e1.fulfill()
+        }
+        
+        d.chain {
+            e2.fulfill()
+            return f
+        }.then {
+            e3.fulfill()
+        }
+        
+        d.callback([])
+        f.callback([])
+        
+        waitForExpectationsWithTimeout(1.0, handler:nil)
+    }
+    
+    // Nested callbacks with generic constrains
+    func testParam() {
+        let e1 = expectationWithDescription("")
+        let e2 = expectationWithDescription("")
+        
+        let d = Deferred<Void>()
+        let e = Deferred<String>()
+        
+        d.chain { () -> Deferred<String> in
+            e1.fulfill()
+            return e
+        }.then { s in
+            XCTAssert(s == "Done")
+            e2.fulfill()
+        }
+        
+        d.callback([])
+        e.callback(["Done"])
         
         waitForExpectationsWithTimeout(1.0, handler:nil)
     }
 }
 
+// Error propogation and handling
+class ErrbackTest: XCTestCase {
+    func testDefault() {
+        let e1 = expectationWithDescription("")
+        let d = Deferred<Void>()
+
+        d.error { e in
+            XCTAssert(e == "Fail")
+            e1.fulfill()
+        }
+        
+        d.errback(["Fail"])
+
+        waitForExpectationsWithTimeout(1.0, handler:nil)
+    }
+
+    func testChain() {
+        let e1 = expectationWithDescription("")
+        let e2 = expectationWithDescription("")
+        let d = Deferred<Void>()
+        
+        d.error { e in
+            XCTAssert(e == "Fail")
+            e1.fulfill()
+        }.error { e in
+            XCTAssert(e == "Fail")
+            e2.fulfill()
+        }
+        
+        d.errback(["Fail"])
+
+        waitForExpectationsWithTimeout(1.0, handler:nil)
+    }
+    
+    func testLazy() {
+        let e1 = expectationWithDescription("")
+        let d = Deferred<Void>()
+        
+        d.errback(["Fail"])
+        
+        d.error { e in
+            XCTAssert(e == "Fail")
+            e1.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(1.0, handler:nil)
+    }
+
+//    TODO: nested errors
+//    func testNested() {
+//        
+//    }
+}
+
+
 /*
-///
-// Exmaples and inline tests follow
-///
-
-// Default, no args errback and callback
-_ = {
-    let d = Deferred<Void>()
-    
-    d.then {
-        print("Default Then")
-        let a = 1
-    }
-    
-    d.callback([])
-    
-    d.error { r in
-        print("DefaultError")
-        let b = 2
-    }
-    
-    d.errback(["Asdf"])
-    }()
-
-
-// Default chaining
-_ = {
-    let d = Deferred<Void>()
-    
-    d.then {
-        let a = 1
-        }.then {
-            let b = 2
-    }
-    
-    d.callback([])
-    
-    d.error { e in
-        let a = 3
-        }.error { e in
-            let b = 4
-    }
-    
-    d.errback([""])
-    }()
-
-
-// Lazy callbacks- immediately fire callback handler if the chain has already been called back
-_ = {
-    var d = Deferred<Void>()
-    d.callback([])
-    
-    d.then {
-        let a = 1
-        }.then {
-            let b = 2
-    }
-    
-    d.errback([""])
-    
-    d.error { e in
-        let a = 1
-        }.error { e in
-            let b = 2
-    }
-    }()
-
-
-// Waiting for an internal deferred to resolve
-_ = {
-    var d = Deferred<Void>()
-    let f = Deferred<Void>()
-    
-    // This is pretty close, but not quite there
-    f.then { s in
-        print(12)
-    }
-    
-    d.chain {
-        print(11)
-        return f
-        }.then {
-            print(13)
-    }
-    
-    d.callback([])
-    f.callback(["Hello"])
-    }()
-
-
-// Param constraints
-_ = {
-    var d = Deferred<()>()
-    var e = Deferred<String>()
-    
-    d.chain { () -> Deferred<String> in
-        let a = 1
-        return e
-        }.then { s in
-            print("Have", s)
-            let a = 2
-    }
-    
-    d.callback([1])
-    e.callback(["Done!"])
-    }()
-
-
 // A Mix of the above two. Given a deferred that returns value in some known
 // type, returning that deferred should chain the following then as a callback of the appropriate type
 _ = {
@@ -144,13 +168,13 @@ _ = {
     d.chain { () -> Deferred<String> in
         print(1)
         return f
-        }.then { s in
-            print(s)
-            print(2)
-        }.then {
-            print(3) // I dont take any args, since the block above me didnt reutn a deferred
-        }.error { err in
-            print("Error: \(err)")
+    }.then { s in
+        print(s)
+        print(2)
+    }.then {
+        print(3) // I dont take any args, since the block above me didnt reutn a deferred
+    }.error { err in
+        print("Error: \(err)")
     }
     
     d.callback([])
@@ -184,6 +208,4 @@ _ = {
     
     // f.errback(["early termination"])
     }()
- 
- 
- */
+*/
