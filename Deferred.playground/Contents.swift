@@ -3,66 +3,51 @@
 Try out Deferred here!
 */
 import Foundation
-@testable import Deferred
+// @testable import Deferred
 
-protocol TestingConvertible {
+protocol Convertible {
     // Convert the given argument to this type. Assumes "T as? Self", has already been tried, or in other words checking
     // if no conversion is needed.
-    static func testingTo<T>(from: T) throws -> Self
-}
-
-extension Array: TestingConvertible {
-    static func testingTo<T>(from: T) throws -> Array {
-        
-        // Convert each element of the array
-        if let from = from as? NSArray {
-            var ret: [Element] = []
-            
-            for element in from {
-                ret.append(try convert(element, to: Element.self))
-            }
-            
-            return ret
-        }
-        
-        throw ConversionError.ConvertibleFailed(from: T.self, type: self)
-    }
+    static func to<T>(from: T) throws -> Self
+    
+    // Get a serializable value from this type
+    func from() throws -> AnyObject
 }
 
 
 // Conversion methods should do all kinds of conversion in the absence of the deferred system
 // This method is for single value targets and sources
-// This works a lot like GSON for Android
-func liveConvert<A, B>(from: A, to: B.Type) throws -> B {
+// This works a lot like GSON for Android: give me something and tell me how you want it
+public func convert<A, B>(from: A, to: B.Type) -> B? {
+    
+    for child in Mirror(reflecting: to).children {
+        print(child)
+    }
+    
     // Catch a suprising majority of simple conversions where Swift can bridge or handle the type conversion itself
     if let simpleCast = from as? B {
-        print("Cast worked")
         return simpleCast
     }
     
-    // TODO: catch errors that convertible might through
-    if let convertible = B.self as? TestingConvertible.Type {
-        print("Convertible worked")
-        return try convertible.testingTo(from) as! B
+    // If B conforms to Convertible then the type has conversion overrides that may be able to handle the conversion
+    if let convertible = B.self as? Convertible.Type {
+        return try! convertible.to(from) as? B
     }
     
-    throw ConversionError.NoConversionPossible(from: A.self, type: to.self)
+    for child in Mirror(reflecting: to).children {
+        print(child)
+    }
+    
+    return nil
 }
 
+let a = "a"
+let b = convert(a, to: String.self)
 
-let a: [NSString] = [NSString(string: "asdf"), NSString(string: "qwer")]
+let c = ("a", "b")
+let d = convert(c, to: (String, String).self)!
+print(d)
 
-do {
-    let b = try liveConvert(a, to: [String].self)
-} catch {
-    print("Failed")
-}
 
-// Next:
-//  write tests for dumb single value conversions
-//  copy basic conversion extensions for JSON classes 
-//  write serialization method
-
-// Questions: 
-//  Does AnyObject matter here?
-
+let m = Mirror(reflecting: (String, String).self)
+print(m.children)

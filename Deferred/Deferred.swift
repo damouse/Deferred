@@ -40,13 +40,13 @@ class AbstractDeferred {
     func callback(args: [AnyObject]) {
         callbackArgs = args
         var ret: [AnyObject] = []
-        if let cb = _callback { ret = cb.call(args) }
+        if let cb = _callback { ret = try! cb.call(args) }
         for n in next { n.callback(ret) }
     }
     
     func errback(args: [AnyObject]) {
         errbackArgs = args
-        if let eb = _errback { eb.call(args) }
+        if let eb = _errback { try! eb.call(args) }
         for n in next { n.errback(args) }
     }
     
