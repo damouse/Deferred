@@ -51,30 +51,30 @@ class AbstractDeferred {
     }
     
     func error(fn: String -> ()) -> Deferred<Void> {
-        return _error(constrainOneVoid(fn), nextDeferred: Deferred<Void>())
+        return _error(constrain(fn), nextDeferred: Deferred<Void>())
     }
 }
 
 
 class Deferred<A>: AbstractDeferred {
     func then(fn: A -> ())  -> Deferred<Void> {
-        return _then(constrainOneVoid(fn), nextDeferred: Deferred<Void>())
+        return _then(constrain(fn), nextDeferred: Deferred<Void>())
     }
     
     func chain(fn: () -> Deferred) -> Deferred<Void> {
         let next = Deferred<Void>()
         
-        _callback = constrainVoidVoid {
+        _callback = constrain {
             fn().next.append(next)
         }
         
         return next
     }
     
-    func chain<T: CN>(fn: A -> Deferred<T>)  -> Deferred<T> {
+    func chain<T>(fn: A -> Deferred<T>)  -> Deferred<T> {
         let next = Deferred<T>()
         
-        _callback = constrainOneVoid { (a: A) in
+        _callback = constrain { (a: A) in
             fn(a).then { s in
                 next.callback([s as! AnyObject])
             }.error { s in

@@ -43,36 +43,36 @@ class BaseClosure<A, B>: AnyClosureType, ClosureType {
 
 
 
-// These are factory functions
-// Generates constrained concrete closures. Some of these methods have different names
-// instead of overloads to cases where non-generic overrides get called instead of the generic ones
-func constrainVoidVoid(fn: () -> ())  -> BaseClosure<Void, Void> {
-    return BaseClosure(fn: fn).setCurry { a in fn(); return [] }
-}
+// These are factory functions. I'm not a fan of how they're set up right now, but its a work in progress.
 
-func constrainOneVoid<A>(fn: (A) -> ()) -> BaseClosure<A, Void> {
+// This is a special case, since it also covers cases where either or both A and B can be Void. 
+func constrain<A, B>(fn: A -> B)  -> BaseClosure<A, B> {
+    // return BaseClosure(fn: fn).setCurry { a in return [fn(try convert(a[0], to: A.self)) as! AnyObject]}
     return BaseClosure(fn: fn).setCurry { a in
+        // Strictly speaking this shouldnt be here
+        // Its a leftover from the generic overloading used in the Deferred class. It shouldn't affect funtionality
+        let result: B?
+        
         if A.self == Void.self {
-            fn(() as! A)
+            result = fn(() as! A)
         } else {
-            fn(try convert(a[0], to: A.self))
+            result = fn(try convert(a[0], to: A.self))
         }
         
-        return []
+        if B.self == Void.self {
+            return []
+        } else {
+            return [result! as! AnyObject]
+        }
     }
 }
 
-func constrainVoidOne<A>(fn: () -> A) -> BaseClosure<Void, A> {
-    return BaseClosure(fn: fn).setCurry { a in [fn() as! AnyObject] }
-}
 
-func constrain<A: CN, B: CN, C: CN>(fn: (A, B) -> C) -> BaseClosure<(A, B), C> {
+func constrain<A, B, C>(fn: (A, B) -> C) -> BaseClosure<(A, B), C> {
     return BaseClosure(fn: fn).setCurry { a in return [fn(try convert(a[0], to: A.self), try convert(a[1], to: B.self)) as! AnyObject]}
 }
 
-func constrain<A: CN, B: CN>(fn: A -> B)  -> BaseClosure<A, B> {
-    return BaseClosure(fn: fn).setCurry { a in return [fn(try convert(a[0], to: A.self)) as! AnyObject]}
-}
+
 
 // Accepts any function
 func accept<A, B>(fn: A -> B)  -> BaseClosure<A, B> {

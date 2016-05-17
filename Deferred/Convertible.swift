@@ -14,10 +14,7 @@ typealias CN = Convertible
 protocol Convertible {
     // Convert the given argument to this type. Assumes "T as? Self", has already been tried, or in other words checking
     // if no conversion is needed.
-    static func to<T>(from: T) throws -> Self
-    
-    // Get a serializable value from this type
-    func from() throws -> AnyObject
+    static func from<T>(from: T) throws -> Self
 }
 
 
@@ -46,7 +43,7 @@ public func convert<A, B>(from: A, to: B.Type) throws -> B {
     
     // If B conforms to Convertible then the type has conversion overrides that may be able to handle the conversion
     if let convertible = B.self as? Convertible.Type {
-        return try convertible.to(from) as! B
+        return try convertible.from(from) as! B
     }
     
     throw ConversionError.NoConversionPossible(from: A.self, type: to.self)
@@ -55,7 +52,7 @@ public func convert<A, B>(from: A, to: B.Type) throws -> B {
 
 // Convertible customization
 extension Bool : Convertible {
-    static func to<T>(from: T) throws -> Bool {
+    static func from<T>(from: T) throws -> Bool {
         // Convert from Foundation
         if let from = from as? ObjCBool {
             return from.boolValue
@@ -63,26 +60,11 @@ extension Bool : Convertible {
         
         throw ConversionError.ConvertibleFailed(from: T.self, type: self)
     }
-    
-    func from() throws -> AnyObject {
-        return self
-    }
-}
-
-// This is not needed, kept here to maintain backwards compat
-extension String : Convertible {
-    static func to<T>(from: T) throws -> String {
-        throw ConversionError.ConvertibleFailed(from: T.self, type: self)
-    }
-    
-    func from() throws -> AnyObject {
-        return self
-    }
 }
 
 
 extension Array: Convertible {
-    static func to<T>(from: T) throws -> Array {
+    static func from<T>(from: T) throws -> Array {
         
         // Dont have to check for swift arrays here, they'll bridge to NSArrays
         if let from = from as? NSArray {
@@ -93,14 +75,10 @@ extension Array: Convertible {
         
         throw ConversionError.ConvertibleFailed(from: T.self, type: self)
     }
-    
-    func from() throws -> AnyObject {
-        return self as! AnyObject
-    }
 }
 
 extension Dictionary: Convertible {
-    static func to<T>(from: T) throws -> Dictionary {
+    static func from<T>(from: T) throws -> Dictionary {
         
         // Like Array from, we don't have to check for swift Dictionaries, they'll bridge over 
         if let from = from as? NSDictionary {
@@ -114,10 +92,6 @@ extension Dictionary: Convertible {
         }
         
         throw ConversionError.ConvertibleFailed(from: T.self, type: self)
-    }
-    
-    func from() throws -> AnyObject {
-        return self as! AnyObject
     }
 }
 
