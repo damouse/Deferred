@@ -114,6 +114,76 @@ class ArrayConversion: XCTestCase {
 }
 
 
+class DictionaryConversion: XCTestCase {
+    func testSameType() {
+        let a: [String: String] = ["asdf": "qwer"]
+        let b = try! convert(a, to: [String: String].self)
+        XCTAssert(a == b)
+    }
+    
+    func testFoundationDictionary() {
+        let a: NSDictionary = NSDictionary(dictionary: ["asdf": "qwer"])
+        let b = try! convert(a, to: [String: String].self)
+        XCTAssert(a == b)
+    }
+    
+    func testFoundationKeys() {
+        let a: [NSString: String] = [NSString(string: "asdf"): "qwer"]
+        let b = try! convert(a, to: [String: String].self)
+        
+        XCTAssert(b.count == 1)
+        XCTAssert(b["asdf"] == "qwer")
+    }
+    
+    func testFoundationValues() {
+        let a: [String: NSString] = ["asdf": NSString(string: "qwer")]
+        let b = try! convert(a, to: [String: String].self)
+        
+        XCTAssert(b.count == 1)
+        XCTAssert(b["asdf"] == "qwer")
+    }
+    
+    func testFoundationKeysValues() {
+        let a: [NSString: NSString] = [NSString(string: "asdf"): NSString(string: "qwer")]
+        let b = try! convert(a, to: [String: String].self)
+        
+        XCTAssert(b.count == 1)
+        XCTAssert(b["asdf"] == "qwer")
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

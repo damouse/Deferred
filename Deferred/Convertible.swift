@@ -27,7 +27,7 @@ public enum ConversionError : ErrorType, CustomStringConvertible {
     
     public var description: String {
         switch self {
-        case .NoConversionPossible(from: let from, type: let type): return "Cant convert \"\(from).\" Cast failed or \"\(type)\" does not implement Convertible"
+        case .NoConversionPossible(from: let from, type: let type): return "Cant convert \"\(from)\". Cast failed or \"\(type)\" does not implement Convertible"
         case .ConvertibleFailed(from: let from, type: let type): return "Convertible type \"\(type)\" does not support conversion from \"\(from)\""
         }
     }
@@ -56,7 +56,7 @@ public func convert<A, B>(from: A, to: B.Type) throws -> B {
 // Convertible customization
 extension Bool : Convertible {
     static func to<T>(from: T) throws -> Bool {
-        // Convert from Foundation 
+        // Convert from Foundation
         if let from = from as? ObjCBool {
             return from.boolValue
         }
@@ -69,7 +69,7 @@ extension Bool : Convertible {
     }
 }
 
-// This is not needed right now
+// This is not needed, kept here to maintain backwards compat
 extension String : Convertible {
     static func to<T>(from: T) throws -> String {
         throw ConversionError.ConvertibleFailed(from: T.self, type: self)
@@ -98,3 +98,55 @@ extension Array: Convertible {
         return self as! AnyObject
     }
 }
+
+extension Dictionary: Convertible {
+    static func to<T>(from: T) throws -> Dictionary {
+        
+        // Like Array from, we don't have to check for swift Dictionaries, they'll bridge over 
+        if let from = from as? NSDictionary {
+            var ret: [Key: Value] = [:]
+        
+            for key in from.allKeys {
+                ret[try convert(key, to: Key.self)] = try convert(from.objectForKey(key)!, to: Value.self)
+            }
+            
+            return ret
+        }
+        
+        throw ConversionError.ConvertibleFailed(from: T.self, type: self)
+    }
+    
+    func from() throws -> AnyObject {
+        return self as! AnyObject
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
