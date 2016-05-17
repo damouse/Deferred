@@ -6,40 +6,73 @@
 //  Copyright © 2016 I. All rights reserved.
 //
 
-
 import Foundation
 
 
+typealias CN = Convertible
+
+protocol Convertible {
+    // Convert the given argument to this type. Assumes "T as? Self", has already been tried, or in other words checking
+    // if no conversion is needed.
+    static func to<T>(from: T) throws -> Self
+    
+    // Get a serializable value from this type
+    func from() throws -> AnyObject
+}
+
 public enum ConversionError : ErrorType, CustomStringConvertible {
     case NoConversionPossible(from: Any.Type, type: Any.Type)
+    case ConvertibleFailed(from: Any.Type, type: Any.Type)
     
     public var description: String {
         switch self {
         case .NoConversionPossible(from: let from, type: let type): return "Cant convert \"\(from)\"- cast failed or \"\(type)\" does not implement Convertible"
+        case .ConvertibleFailed(from: let from, type: let type): return "Convertible type \"\(type)\" cant convert \"\(from)\""
         }
     }
 }
 
 
-protocol Convertible {
-    // Convert the given argument to this type
-    static func to<T: AnyObject>(from: T) -> Self
+// Conversion methods should do all kinds of conversion in the absence of the deferred system
+// This method is for single value targets and sources
+// This works a lot like GSON for Android: give me something and tell me how you want it
+public func convert<A, B>(from: A, to: B.Type) throws -> B {
     
-    // Get a serializable value from this type
-    func from() -> AnyObject
+    // Catch a suprising majority of simple conversions where Swift can bridge or handle the type conversion itself
+    if let simpleCast = from as? B {
+        return simpleCast
+    }
+    
+    // TODO: catch errors that convertible might through
+    if let convertible = B.self as? Convertible.Type {
+        return try convertible.to(from) as! B
+    }
+    
+    throw ConversionError.NoConversionPossible(from: A.self, type: to.self)
 }
 
-// By creating a base "implementation" of the protocol we can inject
-// CN into a lot of stuff without having to implement each individually
-protocol BaseConvertible: Convertible {}
 
-extension BaseConvertible {
-    static func to<T: AnyObject>(from: T) -> Self { return from as! Self }
-    func from() -> AnyObject { return self as! AnyObject }
+// Convertible customization
+extension Bool : Convertible {
+    static func to<T>(from: T) throws -> Bool {
+        if let from = from as? ObjCBool {
+            return from ? true : false
+        }
+        
+        throw ConversionError.ConvertibleFailed(from: T.self, type: self)
+    }
+    
+    func from() throws -> AnyObject {
+        return self
+    }
 }
 
-typealias CN = Convertible
-
-extension String : BaseConvertible { }
-extension Int : BaseConvertible { }
-extension Bool : BaseConvertible { }
+extension String : Convertible {
+    static func to<T>(from: T) throws -> String {
+        throw ConversionError.ConvertibleFailed(from: T.self, type: self)
+    }
+    
+    func from() throws -> AnyObject {
+        return self
+    }
+}

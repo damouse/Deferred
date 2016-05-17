@@ -63,12 +63,12 @@ func constrainVoidOne<A>(fn: () -> A) -> BaseClosure<Void, A> {
     return BaseClosure(fn: fn).setCurry { a in [fn() as! AnyObject] }
 }
 
-func constrain<A: CN, B: CN, C: CN>(fn: (A, B) -> C)  -> BaseClosure<(A, B), C> {
-    return BaseClosure(fn: fn).setCurry { a in return [fn(A.to(a[0]), B.to(a[1])) as! AnyObject]}
+func constrain<A: CN, B: CN, C: CN>(fn: (A, B) -> C) -> BaseClosure<(A, B), C> {
+    return BaseClosure(fn: fn).setCurry { a in return [fn(try! A.to(a[0]), try! B.to(a[1])) as! AnyObject]}
 }
 
 func constrain<A: CN, B: CN>(fn: A -> B)  -> BaseClosure<A, B> {
-    return BaseClosure(fn: fn).setCurry { a in return [fn(A.to(a[0])) as! AnyObject]}
+    return BaseClosure(fn: fn).setCurry { a in return [fn(try! A.to(a[0])) as! AnyObject]}
 }
 
 func accept<A, B>(fn: A -> B)  -> BaseClosure<A, B> {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		508AE7D71CEBA38E0008C248 /* ConversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508AE7D61CEBA38E0008C248 /* ConversionTests.swift */; };
 		50A3135C1CDAAEBA007D0B7F /* AnyFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A3135B1CDAAEBA007D0B7F /* AnyFunction.swift */; };
 		50A3135E1CDAAEE4007D0B7F /* Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A3135D1CDAAEE4007D0B7F /* Conversion.swift */; };
 		50AA9E911CDA77470035B484 /* DeferredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AA9E901CDA77470035B484 /* DeferredTests.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		508AE7D61CEBA38E0008C248 /* ConversionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversionTests.swift; path = ../../deferred/DeferredTests/ConversionTests.swift; sourceTree = "<group>"; };
 		50A3135B1CDAAEBA007D0B7F /* AnyFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyFunction.swift; sourceTree = "<group>"; };
 		50A3135D1CDAAEE4007D0B7F /* Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Conversion.swift; path = ../../deferred/Deferred/Conversion.swift; sourceTree = "<group>"; };
 		50AA9E8E1CDA77470035B484 /* DeferredTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeferredTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				50AA9E901CDA77470035B484 /* DeferredTests.swift */,
+				508AE7D61CEBA38E0008C248 /* ConversionTests.swift */,
 				50AA9E921CDA77470035B484 /* Info.plist */,
 			);
 			path = DeferredTests;
@@ -210,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50AA9E911CDA77470035B484 /* DeferredTests.swift in Sources */,
+				508AE7D71CEBA38E0008C248 /* ConversionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

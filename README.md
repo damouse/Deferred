@@ -29,6 +29,7 @@ Coming soon.
 Featurelist: 
 
 - Automated conversion
+- Conversion to Foundation types
 - Basic conversion Deferreds
 - `AnyFunction` generic receiver and factory methods
 - Models (implemented as part of Silvery)
