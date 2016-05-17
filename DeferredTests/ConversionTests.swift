@@ -54,6 +54,20 @@ class FloatConversion: XCTestCase {
     }
 }
 
+class DoubleConversion: XCTestCase {
+    func testSameType() {
+        let a: Double = 123.456
+        let b = try! convert(a, to: Double.self)
+        XCTAssert(a == b)
+    }
+    
+    func testFromFoundation() {
+        let a: NSNumber = 123.456
+        let b = try! convert(a, to: Double.self)
+        XCTAssert(b == 123.456)
+    }
+}
+
 class BoolConversion: XCTestCase {
     func testSameType() {
         let a: Bool = true
@@ -67,3 +81,42 @@ class BoolConversion: XCTestCase {
         XCTAssert(b == true)
     }
 }
+
+
+// Collections
+class ArrayConversion: XCTestCase {
+    func testSameType() {
+        let a: [String] = ["asdf", "qwer"]
+        let b = try! convert(a, to: [String].self)
+        XCTAssert(a == b)
+    }
+    
+    // NSArray with Convertible elements
+    func testFoundationArray() {
+        let a: NSArray = NSArray(objects: "asdf", "qwer")
+        let b = try! convert(a, to: [String].self)
+        XCTAssert(a == b)
+    }
+    
+    // Swift array with Foundation elements
+    func testFoundationElements() {
+        let a: [NSString] = [NSString(string: "asdf"), NSString(string: "qwer")]
+        let b = try! convert(a, to: [String].self)
+        XCTAssert(a == b)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
