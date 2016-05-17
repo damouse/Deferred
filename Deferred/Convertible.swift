@@ -28,7 +28,7 @@ public enum ConversionError : ErrorType, CustomStringConvertible {
     public var description: String {
         switch self {
         case .NoConversionPossible(from: let from, type: let type): return "Cant convert \"\(from).\" Cast failed or \"\(type)\" does not implement Convertible"
-        case .ConvertibleFailed(from: let from, type: let type): return "Convertible type \"\(type)\" cant convert \"\(from)\""
+        case .ConvertibleFailed(from: let from, type: let type): return "Convertible type \"\(type)\" does not support conversion from \"\(from)\""
         }
     }
 }
@@ -44,7 +44,7 @@ public func convert<A, B>(from: A, to: B.Type) throws -> B {
         return simpleCast
     }
     
-    // TODO: catch errors that convertible might through
+    // If B conforms to Convertible then the type has conversion overrides that may be able to handle the conversion
     if let convertible = B.self as? Convertible.Type {
         return try convertible.to(from) as! B
     }
@@ -56,6 +56,7 @@ public func convert<A, B>(from: A, to: B.Type) throws -> B {
 // Convertible customization
 extension Bool : Convertible {
     static func to<T>(from: T) throws -> Bool {
+        // Convert from Foundation 
         if let from = from as? ObjCBool {
             return from.boolValue
         }
@@ -83,14 +84,11 @@ extension String : Convertible {
 extension Array: Convertible {
     static func to<T>(from: T) throws -> Array {
         
+        // Dont have to check for swift arrays here, they'll bridge to NSArrays
         if let from = from as? NSArray {
-            var ret: [Element] = []
-            
-            for element in from {
-                ret.append(try convert(element, to: Element.self))
+            return try from.map() { (element: AnyObject) throws -> Element in
+                return try convert(element, to: Element.self)
             }
-            
-            return ret
         }
         
         throw ConversionError.ConvertibleFailed(from: T.self, type: self)

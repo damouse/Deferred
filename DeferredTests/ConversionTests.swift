@@ -104,6 +104,13 @@ class ArrayConversion: XCTestCase {
         let b = try! convert(a, to: [String].self)
         XCTAssert(a == b)
     }
+    
+    // NSArray array with Foundation elements
+    func testFoundationArrayElements() {
+        let a: NSArray = NSArray(objects: NSString(string: "asdf"), NSString(string: "qwer"))
+        let b = try! convert(a, to: [String].self)
+        XCTAssert(a == b)
+    }
 }
 
 
