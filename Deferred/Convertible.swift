@@ -21,13 +21,11 @@ protocol Convertible {
 public enum ConversionError : ErrorType, CustomStringConvertible {
     case NoConversionPossible(from: Any.Type, type: Any.Type)
     case ConvertibleFailed(from: Any.Type, type: Any.Type)
-    case BadNumberOfArguments(expected: Int, actual: Int)
     
     public var description: String {
         switch self {
         case .NoConversionPossible(from: let from, type: let type): return "Cant convert \"\(from)\". Cast failed or \"\(type)\" does not implement Convertible"
         case .ConvertibleFailed(from: let from, type: let type): return "Convertible type \"\(type)\" does not support conversion from \"\(from)\""
-        case .BadNumberOfArguments(expected: let expected, actual: let actual): return "Expected  \(expected) arguments, got \(actual)"
         }
     }
 }
