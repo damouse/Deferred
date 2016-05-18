@@ -214,13 +214,13 @@ _ = {
     d.chain { () -> Deferred<String> in
         print(1)
         return f
-        }.chain { str -> Deferred<Bool> in
-            print(2, str)
-            return c
-        }.then { bool in
-            print(3, bool)
-        }.error { err in
-            print("Error: \(err)")
+    }.chain { str -> Deferred<Bool> in
+        print(2, str)
+        return c
+    }.then { bool in
+        print(3, bool)
+    }.error { err in
+        print("Error: \(err)")
     }
     
     // Comment out lines below and make sure the prints do or dont show up in order

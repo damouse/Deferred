@@ -28,7 +28,7 @@ class AbstractDeferred {
         
         // This isnt correct and likely doesnt account for the failure cases well
         // if let a = callbackArgs { callback(a) }
-        if let a = callbackArgs { try? fn.call(a) }
+        if let a = callbackArgs { _ = try? fn.call(a) }
         
         // Also we don't want to replace the callback here if the args are set, want to branch the chain instead
         _callback = fn
@@ -46,6 +46,8 @@ class AbstractDeferred {
     func callback(args: [AnyObject]) {
         callbackArgs = args
         var ret: [AnyObject] = []
+        
+        // Not handled: error branching and chaining
         if let cb = _callback { ret = try! cb.call(args) }
         for n in next { n.callback(ret) }
     }
@@ -76,6 +78,7 @@ class Deferred<A>: AbstractDeferred {
         
         return next
     }
+    
     
     func chain<T>(fn: A -> Deferred<T>)  -> Deferred<T> {
         let next = Deferred<T>()
