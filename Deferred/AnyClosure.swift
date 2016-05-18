@@ -78,7 +78,6 @@ public class Closure {
             if A.self == Void.self  {
                 if a.count != 0 { throw ClosureError.BadNumberOfArguments(expected: 0, actual: a.count) }
             } else {
-                print(a.count)
                 if a.count != 1 { throw ClosureError.BadNumberOfArguments(expected: 1, actual: a.count) }
             }
             
