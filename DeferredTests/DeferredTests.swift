@@ -40,19 +40,19 @@ class CallbackTest: XCTestCase {
         waitForExpectationsWithTimeout(1.0, handler:nil)
     }
     
-    // immediately fire callback handler if the chain has already been called back
-//    func testLazy() {
-//        let e1 = expectationWithDescription("")
-//        let d = Deferred<Void>()
-//        
-//        d.callback([])
-//        
-//        d.then {
-//            e1.fulfill()
-//        }
-//        
-//        waitForExpectationsWithTimeout(1.0, handler:nil)
-//    }
+    // immediately fire callback handler if the chain has already been fired
+    func testLazy() {
+        let e1 = expectationWithDescription("")
+        let d = Deferred<Void>()
+        
+        d.callback([])
+        
+        d.then {
+            e1.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(1.0, handler:nil)
+    }
     
     // Waiting for an internal deferred to resolve
     func testNested() {
@@ -151,10 +151,32 @@ class ErrbackTest: XCTestCase {
         waitForExpectationsWithTimeout(1.0, handler:nil)
     }
 
-//    TODO: nested errors
-//    func testNested() {
-//        
-//    }
+    func testNested() {
+        let e1 = expectationWithDescription("")
+        let e2 = expectationWithDescription("")
+        let e3 = expectationWithDescription("")
+        
+        let d = Deferred<Void>()
+        let f = Deferred<Void>()
+        
+        f.error { s in
+            e1.fulfill()
+        }
+        
+        d.chain {
+            e2.fulfill()
+            return f
+        }.then {
+            XCTFail()
+        }.error { s in
+            e3.fulfill()
+        }
+        
+        d.callback([])
+        f.errback(["Reason"])
+        
+        waitForExpectationsWithTimeout(1.0, handler:nil)
+    }
 }
 
 

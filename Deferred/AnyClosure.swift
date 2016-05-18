@@ -12,10 +12,12 @@ import Foundation
 
 
 public enum ClosureError : ErrorType, CustomStringConvertible {
+    case ExecutorNotSet()
     case BadNumberOfArguments(expected: Int, actual: Int)
     
     public var description: String {
         switch self {
+        case .ExecutorNotSet(): return "Cannot invoke function without the curried executor that actually fires it. If using BaseClosure directly, did you call setExecutor after initializing?"
         case .BadNumberOfArguments(expected: let expected, actual: let actual): return "Expected  \(expected) arguments, got \(actual)"
         }
     }
@@ -37,28 +39,30 @@ protocol ClosureType {
 // Note that this class is marked "Abstract" because its not ready out of the box-- a curried executor *must* be
 // set by subclasses
 public class BaseClosure<A, B>: AnyClosureType, ClosureType {
-    let handler: A -> B
+    public let handler: A -> B
     
     // This is the method that forwards an invocation to the true closure above
     // We don't have a way of capturing and enforcing the "true" type information from generic paramters, so the
     // invocation must be manually forwarded, likely in a subclass or factory
-    var curried: ([AnyObject] throws -> [AnyObject])!
+    private var executor: ([AnyObject] throws -> [AnyObject])?
     
     
     // For some reason the generic constraints aren't forwarded correctly when
     // the curried function is passed along, so it gets its own method below
-    // You MUST call setCurry immediately after init! Pretend its attached to the init method
+    // You MUST call setExecutor immediately after init! Pretend its attached to the init method
     public init(fn: A -> B) {
         handler = fn
     }
     
-    func call(args: [AnyObject]) throws -> [AnyObject] {
-        return try curried(args)
+    // You MUST call this method after initializing
+    public func setExecutor(fn: [AnyObject] throws -> [AnyObject]) -> Self {
+        executor = fn
+        return self
     }
     
-    func setCurry(fn: [AnyObject] throws -> [AnyObject]) -> Self {
-        curried = fn
-        return self
+    public func call(args: [AnyObject]) throws -> [AnyObject] {
+        guard let curry = executor else { throw ClosureError.ExecutorNotSet() }
+        return try curry(args)
     }
 }
 
@@ -70,7 +74,7 @@ public class Closure {
     
     // This is a special case, since it covers cases where either or both A and B can be Void.
     public static func wrap<A, R>(fn: A -> R) -> BaseClosure<A, R> {
-        return BaseClosure(fn: fn).setCurry { a in
+        return BaseClosure(fn: fn).setExecutor { a in
             if A.self == Void.self  {
                 if a.count != 0 { throw ClosureError.BadNumberOfArguments(expected: 0, actual: a.count) }
             } else {
@@ -84,7 +88,7 @@ public class Closure {
     }
     
     public static func wrap<A, B, R>(fn: (A, B) -> R) -> BaseClosure<(A, B), R> {
-        return BaseClosure(fn: fn).setCurry { a in
+        return BaseClosure(fn: fn).setExecutor { a in
             if a.count != 2 { throw ClosureError.BadNumberOfArguments(expected: 2, actual: a.count) }
             let ret = fn(try convert(a[0], to: A.self), try convert(a[1], to: B.self))
             return [ret as! AnyObject]
@@ -92,7 +96,7 @@ public class Closure {
     }
     
     public static func wrap<A, B, C, R>(fn: (A, B, C) -> R) -> BaseClosure<(A, B, C), R> {
-        return BaseClosure(fn: fn).setCurry { a in
+        return BaseClosure(fn: fn).setExecutor { a in
             if a.count != 3 { throw ClosureError.BadNumberOfArguments(expected: 3, actual: a.count) }
             let ret = fn(try convert(a[0], to: A.self), try convert(a[1], to: B.self), try convert(a[2], to: C.self))
             return [ret as! AnyObject]

@@ -25,8 +25,14 @@ class AbstractDeferred {
     
     func _then<T: AbstractDeferred>(fn: AnyClosureType, nextDeferred: T) -> T {
         next.append(nextDeferred)
-        if let a = callbackArgs { callback(a) }
+        
+        // This isnt correct and likely doesnt account for the failure cases well
+        // if let a = callbackArgs { callback(a) }
+        if let a = callbackArgs { try? fn.call(a) }
+        
+        // Also we don't want to replace the callback here if the args are set, want to branch the chain instead
         _callback = fn
+        
         return nextDeferred
     }
     
