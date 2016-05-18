@@ -94,6 +94,8 @@ class DeferredCallback: XCTestCase {
         }.then { s in
             XCTAssert(s == "Done")
             e2.fulfill()
+        }.error {
+            print($0)
         }
         
         d.callback([])

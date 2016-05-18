@@ -45,11 +45,16 @@ class AbstractDeferred {
     
     func callback(args: [AnyObject]) {
         callbackArgs = args
-        var ret: [AnyObject] = []
         
         // Not handled: error branching and chaining
-        if let cb = _callback { ret = try! cb.call(args) }
-        for n in next { n.callback(ret) }
+        if let cb = _callback {
+            do {
+                let ret = try cb.call(args)
+                for n in next { n.callback(ret) }
+            } catch let e {
+                for n in next { n.errback(["\(e)"]) }
+            }
+        }
     }
     
     func errback(args: [AnyObject]) {
@@ -72,11 +77,17 @@ class Deferred<A>: AbstractDeferred {
     func then<T>(fn: A -> Deferred<T>)  -> Deferred<T> {
         let next = Deferred<T>()
         
-        _callback = Closure.wrap { (a: A) in
-            fn(a).then { s in
-                s is Void ? next.callback([]) : next.callback([s as! AnyObject])
-            }.error { s in
-                next.errback([s])
+        if A.self == Void.self {
+            _callback = Closure.wrap {
+                fn(() as! A).next.append(next)
+            }
+        } else {
+            _callback = Closure.wrap { (a: A) in
+                fn(a).then { s in
+                    s is Void ? next.callback([]) : next.callback([s as! AnyObject])
+                }.error { s in
+                    next.errback([s])
+                }
             }
         }
         
@@ -89,7 +100,7 @@ class Deferred<A>: AbstractDeferred {
 //        _callback = Closure.wrap {
 //            fn().next.append(next)
 //        }
-//        
+//
 //        return next
 //    }
     

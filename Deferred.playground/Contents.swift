@@ -35,9 +35,16 @@ class AbDeferred {
     
     func callback(args: [AnyObject]) {
         callbackArgs = args
-        var ret: [AnyObject] = []
-        if let cb = _callback { ret = try! cb.call(args) }
-        for n in next { n.callback(ret) }
+        
+        // Not handled: error branching and chaining
+        if let cb = _callback {
+            do {
+                let ret = try cb.call(args)
+                for n in next { n.callback(ret) }
+            } catch let e {
+                for n in next { n.errback(["\(e)"]) }
+            }
+        }
     }
     
     func errback(args: [AnyObject]) {
@@ -54,28 +61,27 @@ class AbDeferred {
 
 class DDeferred<A>: AbDeferred {
     func then(fn: A -> ())  -> DDeferred<Void> {
-        print("Current next list: \(next)")
         return _then(Closure.wrap(fn), nextDeferred: DDeferred<Void>())
     }
     
-    func chain(fn: () -> DDeferred) -> DDeferred<Void> {
-        let next = DDeferred<Void>()
-        
-        _callback = Closure.wrap {
-            fn().next.append(next)
-        }
-        
-        return next
-    }
-    
-    func chain<T>(fn: A -> DDeferred<T>)  -> DDeferred<T> {
+    func then<T>(fn: A -> DDeferred<T>)  -> DDeferred<T> {
         let next = DDeferred<T>()
         
-        _callback = Closure.wrap { (a: A) in
-            fn(a).then { s in
-                next.callback([s as! AnyObject])
+        if A.self == Void.self {
+            _callback = Closure.wrap {
+                fn(() as! A).next.append(next)
+            }
+        } else {
+            _callback = Closure.wrap { (a: A) in
+                print(1)
+                
+                fn(a).then { s in
+                    print("chained block")
+                    s is Void ? next.callback([]) : next.callback([s as! AnyObject])
                 }.error { s in
+                    print("chained err")
                     next.errback([s])
+                }
             }
         }
         
@@ -84,15 +90,21 @@ class DDeferred<A>: AbDeferred {
 }
 
 let d = DDeferred<Void>()
+let e = DDeferred<String>()
 
-d.then {
-    print("On Time")
+let c = d.then { () -> DDeferred<String> in
+    print("First fire")
+    return e
+}
+
+c.then { s in
+    print(s)
+}
+    
+c.error {
+    print($0)
 }
 
 d.callback([])
-
-d.then {
-    print("Lazy")
-}
-
+e.callback(["Done"])
 
