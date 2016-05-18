@@ -11,7 +11,7 @@
 		508AE7DC1CED0C000008C248 /* ClosureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508AE7DB1CED0C000008C248 /* ClosureTests.swift */; };
 		50A3135C1CDAAEBA007D0B7F /* AnyClosure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A3135B1CDAAEBA007D0B7F /* AnyClosure.swift */; };
 		50A3135E1CDAAEE4007D0B7F /* Convertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A3135D1CDAAEE4007D0B7F /* Convertible.swift */; };
-		50AA9E911CDA77470035B484 /* DeferredAcceptanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AA9E901CDA77470035B484 /* DeferredAcceptanceTests.swift */; };
+		50AA9E911CDA77470035B484 /* DeferredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AA9E901CDA77470035B484 /* DeferredTests.swift */; };
 		50AA9EA11CDA792B0035B484 /* Deferred.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21594271B94D79300F2F665 /* Deferred.framework */; };
 		A215942B1B94D79300F2F665 /* Deferred.h in Headers */ = {isa = PBXBuildFile; fileRef = A215942A1B94D79300F2F665 /* Deferred.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A21594421B94D7CD00F2F665 /* Deferred.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21594411B94D7CD00F2F665 /* Deferred.swift */; };
@@ -34,7 +34,7 @@
 		50A3135B1CDAAEBA007D0B7F /* AnyClosure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyClosure.swift; sourceTree = "<group>"; };
 		50A3135D1CDAAEE4007D0B7F /* Convertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Convertible.swift; path = ../../deferred/Deferred/Convertible.swift; sourceTree = "<group>"; };
 		50AA9E8E1CDA77470035B484 /* DeferredTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeferredTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		50AA9E901CDA77470035B484 /* DeferredAcceptanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeferredAcceptanceTests.swift; sourceTree = "<group>"; };
+		50AA9E901CDA77470035B484 /* DeferredTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeferredTests.swift; sourceTree = "<group>"; };
 		50AA9E921CDA77470035B484 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A21594271B94D79300F2F665 /* Deferred.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Deferred.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A215942A1B94D79300F2F665 /* Deferred.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Deferred.h; sourceTree = "<group>"; };
@@ -66,7 +66,7 @@
 		50AA9E8F1CDA77470035B484 /* DeferredTests */ = {
 			isa = PBXGroup;
 			children = (
-				50AA9E901CDA77470035B484 /* DeferredAcceptanceTests.swift */,
+				50AA9E901CDA77470035B484 /* DeferredTests.swift */,
 				508AE7D61CEBA38E0008C248 /* ConversionTests.swift */,
 				508AE7DB1CED0C000008C248 /* ClosureTests.swift */,
 				50AA9E921CDA77470035B484 /* Info.plist */,
@@ -215,7 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50AA9E911CDA77470035B484 /* DeferredAcceptanceTests.swift in Sources */,
+				50AA9E911CDA77470035B484 /* DeferredTests.swift in Sources */,
 				508AE7D71CEBA38E0008C248 /* ConversionTests.swift in Sources */,
 				508AE7DC1CED0C000008C248 /* ClosureTests.swift in Sources */,
 			);

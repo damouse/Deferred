@@ -69,12 +69,23 @@ class Deferred<A>: AbstractDeferred {
         return _then(Closure.wrap(fn), nextDeferred: Deferred<Void>())
     }
     
-    func then<T>(fn: A -> Deferred<T>)  -> Deferred<T> {
+    func chain(fn: () -> Deferred) -> Deferred<Void> {
+        let next = Deferred<Void>()
+        
+        _callback = Closure.wrap {
+            fn().next.append(next)
+        }
+        
+        return next
+    }
+    
+    
+    func chain<T>(fn: A -> Deferred<T>)  -> Deferred<T> {
         let next = Deferred<T>()
         
         _callback = Closure.wrap { (a: A) in
             fn(a).then { s in
-                s is Void ? next.callback([]) : next.callback([s as! AnyObject])
+                next.callback([s as! AnyObject])
             }.error { s in
                 next.errback([s])
             }
@@ -82,34 +93,6 @@ class Deferred<A>: AbstractDeferred {
         
         return next
     }
-    
-//    func chain(fn: () -> Deferred) -> Deferred<Void> {
-//        let next = Deferred<Void>()
-//        
-//        _callback = Closure.wrap {
-//            fn().next.append(next)
-//        }
-//        
-//        return next
-//    }
-    
-//    func chain(fn: A -> ())  -> Deferred<Void> {
-//        return _then(Closure.wrap(fn), nextDeferred: Deferred<Void>())
-//    }
-//    
-//    func chain<T>(fn: A -> Deferred<T>)  -> Deferred<T> {
-//        let next = Deferred<T>()
-//        
-//        _callback = Closure.wrap { (a: A) in
-//            fn(a).then { s in
-//                next.callback([s as! AnyObject])
-//            }.error { s in
-//                next.errback([s])
-//            }
-//        }
-//        
-//        return next
-//    }
 }
 
 

@@ -11,7 +11,7 @@ import XCTest
 @testable import Deferred
 
 // Success propogation and and handling
-class DeferredCallback: XCTestCase {
+class CallbackTest: XCTestCase {
     func testDefault() {
         let e1 = expectationWithDescription("")
         let d = Deferred<Void>()
@@ -25,8 +25,8 @@ class DeferredCallback: XCTestCase {
     }
 
     func testChain() {
-        let e1 = expectationWithDescription("Callback 1")
-        let e2 = expectationWithDescription("Callback 2")
+        let e1 = expectationWithDescription("")
+        let e2 = expectationWithDescription("")
         
         let d = Deferred<Void>()
 
@@ -42,7 +42,7 @@ class DeferredCallback: XCTestCase {
     
     // immediately fire callback handler if the chain has already been fired
     func testLazy() {
-        let e1 = expectationWithDescription("Callback 1")
+        let e1 = expectationWithDescription("")
         let d = Deferred<Void>()
         
         d.callback([])
@@ -56,9 +56,9 @@ class DeferredCallback: XCTestCase {
     
     // Waiting for an internal deferred to resolve
     func testNested() {
-        let e1 = expectationWithDescription("Nested Deferred")
-        let e2 = expectationWithDescription("First callback")
-        let e3 = expectationWithDescription("Last callback")
+        let e1 = expectationWithDescription("")
+        let e2 = expectationWithDescription("")
+        let e3 = expectationWithDescription("")
         
         let d = Deferred<Void>()
         let f = Deferred<Void>()
@@ -67,7 +67,7 @@ class DeferredCallback: XCTestCase {
             e1.fulfill()
         }
         
-        d.then { () -> Deferred<Void> in
+        d.chain {
             e2.fulfill()
             return f
         }.then {
@@ -82,13 +82,13 @@ class DeferredCallback: XCTestCase {
     
     // Nested callbacks with generic constrains
     func testParam() {
-        let e1 = expectationWithDescription("Callback 1")
-        let e2 = expectationWithDescription("Callback 2")
+        let e1 = expectationWithDescription("")
+        let e2 = expectationWithDescription("")
         
         let d = Deferred<Void>()
         let e = Deferred<String>()
         
-        d.then { () -> Deferred<String> in
+        d.chain { () -> Deferred<String> in
             e1.fulfill()
             return e
         }.then { s in
@@ -104,14 +104,13 @@ class DeferredCallback: XCTestCase {
 }
 
 // Error propogation and handling
-class DeferredErrback: XCTestCase {
+class ErrbackTest: XCTestCase {
     func testDefault() {
         let e1 = expectationWithDescription("")
         let d = Deferred<Void>()
 
-        // Note the shorthand error syntax
-        d.error {
-            XCTAssert($0 == "Fail")
+        d.error { e in
+            XCTAssert(e == "Fail")
             e1.fulfill()
         }
         
@@ -164,7 +163,7 @@ class DeferredErrback: XCTestCase {
             e1.fulfill()
         }
         
-        d.then { () -> Deferred<Void> in
+        d.chain {
             e2.fulfill()
             return f
         }.then {
