@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		508AE7D71CEBA38E0008C248 /* ConversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508AE7D61CEBA38E0008C248 /* ConversionTests.swift */; };
+		508AE7DA1CED07A30008C248 /* GenericShotgun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508AE7D91CED07A30008C248 /* GenericShotgun.swift */; };
 		50A3135C1CDAAEBA007D0B7F /* AnyFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A3135B1CDAAEBA007D0B7F /* AnyFunction.swift */; };
 		50A3135E1CDAAEE4007D0B7F /* Convertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A3135D1CDAAEE4007D0B7F /* Convertible.swift */; };
 		50AA9E911CDA77470035B484 /* DeferredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AA9E901CDA77470035B484 /* DeferredTests.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		508AE7D61CEBA38E0008C248 /* ConversionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversionTests.swift; path = ../../deferred/DeferredTests/ConversionTests.swift; sourceTree = "<group>"; };
+		508AE7D91CED07A30008C248 /* GenericShotgun.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GenericShotgun.swift; path = ../../deferred/Deferred/GenericShotgun.swift; sourceTree = "<group>"; };
 		50A3135B1CDAAEBA007D0B7F /* AnyFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyFunction.swift; sourceTree = "<group>"; };
 		50A3135D1CDAAEE4007D0B7F /* Convertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Convertible.swift; path = ../../deferred/Deferred/Convertible.swift; sourceTree = "<group>"; };
 		50AA9E8E1CDA77470035B484 /* DeferredTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeferredTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +63,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		508AE7D81CED07950008C248 /* Closures */ = {
+			isa = PBXGroup;
+			children = (
+				50A3135B1CDAAEBA007D0B7F /* AnyFunction.swift */,
+				508AE7D91CED07A30008C248 /* GenericShotgun.swift */,
+			);
+			name = Closures;
+			sourceTree = "<group>";
+		};
 		50AA9E8F1CDA77470035B484 /* DeferredTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -94,10 +105,10 @@
 		A21594291B94D79300F2F665 /* Deferred */ = {
 			isa = PBXGroup;
 			children = (
+				508AE7D81CED07950008C248 /* Closures */,
 				A215942A1B94D79300F2F665 /* Deferred.h */,
 				A21594411B94D7CD00F2F665 /* Deferred.swift */,
 				50A3135D1CDAAEE4007D0B7F /* Convertible.swift */,
-				50A3135B1CDAAEBA007D0B7F /* AnyFunction.swift */,
 				A215942C1B94D79300F2F665 /* Info.plist */,
 			);
 			path = Deferred;
@@ -221,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				508AE7DA1CED07A30008C248 /* GenericShotgun.swift in Sources */,
 				50A3135C1CDAAEBA007D0B7F /* AnyFunction.swift in Sources */,
 				50A3135E1CDAAEE4007D0B7F /* Convertible.swift in Sources */,
 				A21594421B94D7CD00F2F665 /* Deferred.swift in Sources */,

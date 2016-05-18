@@ -21,15 +21,22 @@ protocol ClosureType {
     var handler: ParameterTypes -> ReturnTypes { get }
 }
 
-// Concrete and invokable. Doesn't care about types
-class BaseClosure<A, B>: AnyClosureType, ClosureType {
+// Concrete and invokable closure wrapper. Doesnt care about types and doesnt constrain its internal generics
+// Note that this class is marked "Abstract" because its not ready out of the box-- a curried executor *must* be
+// set by subclasses
+public class BaseClosure<A, B>: AnyClosureType, ClosureType {
     let handler: A -> B
+    
+    // This is the method that forwards an invocation to the true closure above
+    // We don't have a way of capturing and enforcing the "true" type information from generic paramters, so the
+    // invocation must be manually forwarded, usually in a subclass
     var curried: ([AnyObject] throws -> [AnyObject])!
+    
     
     // For some reason the generic constraints aren't forwarded correctly when
     // the curried function is passed along, so it gets its own method below
     // You must call setCurry immediately after init!
-    init(fn: A -> B) {
+    public init(fn: A -> B) {
         handler = fn
     }
     
@@ -41,32 +48,6 @@ class BaseClosure<A, B>: AnyClosureType, ClosureType {
         curried = fn
         return self
     }
-}
-
-
-// These are factory functions. I'm not a fan of how they're set up right now, but its a work in progress.
-
-// This is a special case, since it covers cases where either or both A and B can be Void.
-func constrain<A, B>(fn: A -> B)  -> BaseClosure<A, B> {
-    return BaseClosure(fn: fn).setCurry { a in
-        let result: B?
-        
-        if A.self == Void.self {
-            result = fn(() as! A)
-        } else {
-            result = fn(try convert(a[0], to: A.self))
-        }
-        
-        if B.self == Void.self {
-            return []
-        } else {
-            return [result! as! AnyObject]
-        }
-    }
-}
-
-func constrain<A, B, C>(fn: (A, B) -> C) -> BaseClosure<(A, B), C> {
-    return BaseClosure(fn: fn).setCurry { a in return [fn(try convert(a[0], to: A.self), try convert(a[1], to: B.self)) as! AnyObject]}
 }
 
 

@@ -29,7 +29,7 @@ Coming soon.
 Featurelist: 
 
 - Automated conversion
-- Conversion to Foundation types
+- Conversion of optionals allowing nil to pass through 
 - Basic conversion Deferreds
 - `AnyFunction` generic receiver and factory methods
 - Models (implemented as part of Silvery)
