@@ -121,6 +121,14 @@ class DictionaryConversion: XCTestCase {
         XCTAssert(a == b)
     }
     
+    func testAnyObject() {
+        let a: [String: AnyObject] = ["asdf": "qwer"]
+        let b = try! convert(a, to: [String: String].self)
+        
+        XCTAssert(b.count == 1)
+        XCTAssert(b["asdf"] == "qwer")
+    }
+    
     func testFoundationDictionary() {
         let a: NSDictionary = NSDictionary(dictionary: ["asdf": "qwer"])
         let b = try! convert(a, to: [String: String].self)

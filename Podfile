@@ -11,3 +11,7 @@ end
 target 'DeferredTests' do
     pod 'SwiftyJSON', '~> 2.3.1'
 end
+
+target 'TestingTarget' do
+    pod 'SwiftyJSON', '~> 2.3.1'
+end

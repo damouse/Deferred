@@ -9,8 +9,6 @@
 import Foundation
 
 
-typealias CN = Convertible
-
 protocol Convertible {
     // Convert the given argument to this type. Assumes "T as? Self", has already been tried, or in other words checking
     // if no conversion is needed.
@@ -50,7 +48,7 @@ public func convert<A, B>(from: A, to: B.Type) throws -> B {
 }
 
 
-// Convertible customization
+// Convertible builtin overrides
 extension Bool : Convertible {
     static func from<T>(from: T) throws -> Bool {
         // Convert from Foundation
@@ -61,7 +59,6 @@ extension Bool : Convertible {
         throw ConversionError.ConvertibleFailed(from: T.self, type: self)
     }
 }
-
 
 extension Array: Convertible {
     static func from<T>(from: T) throws -> Array {
@@ -94,10 +91,6 @@ extension Dictionary: Convertible {
         throw ConversionError.ConvertibleFailed(from: T.self, type: self)
     }
 }
-
-
-
-
 
 
 
