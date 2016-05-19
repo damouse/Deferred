@@ -13,9 +13,11 @@
 		50A3135E1CDAAEE4007D0B7F /* Convertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A3135D1CDAAEE4007D0B7F /* Convertible.swift */; };
 		50AA9E911CDA77470035B484 /* DeferredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AA9E901CDA77470035B484 /* DeferredTests.swift */; };
 		50AA9EA11CDA792B0035B484 /* Deferred.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21594271B94D79300F2F665 /* Deferred.framework */; };
+		8E1C1E871DD367C9A9A0F0D5 /* Pods_DeferredTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9475600DC321B5B9686A086 /* Pods_DeferredTests.framework */; };
 		A215942B1B94D79300F2F665 /* Deferred.h in Headers */ = {isa = PBXBuildFile; fileRef = A215942A1B94D79300F2F665 /* Deferred.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A21594421B94D7CD00F2F665 /* Deferred.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21594411B94D7CD00F2F665 /* Deferred.swift */; };
 		A215944A1B94D85C00F2F665 /* Deferred.podspec in Resources */ = {isa = PBXBuildFile; fileRef = A21594491B94D85C00F2F665 /* Deferred.podspec */; };
+		E7FADA4FA0353EDFFC78F9FA /* Pods_Deferred.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF6EAF3F13C3BD321C6F721 /* Pods_Deferred.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +31,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		039D3031DFEC6C794A96F89F /* Pods-Deferred.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Deferred.release.xcconfig"; path = "Pods/Target Support Files/Pods-Deferred/Pods-Deferred.release.xcconfig"; sourceTree = "<group>"; };
+		166A819405548CD6F4523895 /* Pods-DeferredTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeferredTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DeferredTests/Pods-DeferredTests.release.xcconfig"; sourceTree = "<group>"; };
+		3CF6EAF3F13C3BD321C6F721 /* Pods_Deferred.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Deferred.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		508AE7D61CEBA38E0008C248 /* ConversionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversionTests.swift; path = ../../deferred/DeferredTests/ConversionTests.swift; sourceTree = "<group>"; };
 		508AE7DB1CED0C000008C248 /* ClosureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClosureTests.swift; path = ../../deferred/DeferredTests/ClosureTests.swift; sourceTree = "<group>"; };
 		50A3135B1CDAAEBA007D0B7F /* AnyClosure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyClosure.swift; sourceTree = "<group>"; };
@@ -42,6 +47,9 @@
 		A21594411B94D7CD00F2F665 /* Deferred.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deferred.swift; sourceTree = "<group>"; };
 		A21594491B94D85C00F2F665 /* Deferred.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = Deferred.podspec; sourceTree = "<group>"; };
 		A2A8279B1BD1D56D00E45CAA /* Deferred.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Deferred.playground; sourceTree = "<group>"; };
+		AC7C23C67665FC88C164414A /* Pods-Deferred.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Deferred.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Deferred/Pods-Deferred.debug.xcconfig"; sourceTree = "<group>"; };
+		BECA328F5C1DC24C5F322E12 /* Pods-DeferredTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeferredTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DeferredTests/Pods-DeferredTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F9475600DC321B5B9686A086 /* Pods_DeferredTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DeferredTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +58,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50AA9EA11CDA792B0035B484 /* Deferred.framework in Frameworks */,
+				8E1C1E871DD367C9A9A0F0D5 /* Pods_DeferredTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7FADA4FA0353EDFFC78F9FA /* Pods_Deferred.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +84,15 @@
 			path = DeferredTests;
 			sourceTree = "<group>";
 		};
+		692B5BAF1BE3F27FA02E88C3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3CF6EAF3F13C3BD321C6F721 /* Pods_Deferred.framework */,
+				F9475600DC321B5B9686A086 /* Pods_DeferredTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A215941D1B94D79300F2F665 = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +101,8 @@
 				A21594291B94D79300F2F665 /* Deferred */,
 				50AA9E8F1CDA77470035B484 /* DeferredTests */,
 				A21594281B94D79300F2F665 /* Products */,
+				DD416B2DF7921876A421664E /* Pods */,
+				692B5BAF1BE3F27FA02E88C3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,6 +127,17 @@
 			path = Deferred;
 			sourceTree = "<group>";
 		};
+		DD416B2DF7921876A421664E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AC7C23C67665FC88C164414A /* Pods-Deferred.debug.xcconfig */,
+				039D3031DFEC6C794A96F89F /* Pods-Deferred.release.xcconfig */,
+				BECA328F5C1DC24C5F322E12 /* Pods-DeferredTests.debug.xcconfig */,
+				166A819405548CD6F4523895 /* Pods-DeferredTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -124,9 +156,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50AA9E961CDA77470035B484 /* Build configuration list for PBXNativeTarget "DeferredTests" */;
 			buildPhases = (
+				9D6523477047201666DF3D12 /* 📦 Check Pods Manifest.lock */,
 				50AA9E8A1CDA77470035B484 /* Sources */,
 				50AA9E8B1CDA77470035B484 /* Frameworks */,
 				50AA9E8C1CDA77470035B484 /* Resources */,
+				7863DE2DE9458183D76C2AD1 /* 📦 Embed Pods Frameworks */,
+				29AC65C3CC78109D5C6DD1D5 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -142,10 +177,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A215943B1B94D79300F2F665 /* Build configuration list for PBXNativeTarget "Deferred" */;
 			buildPhases = (
+				F34AB8870E1C14A423C35EB9 /* 📦 Check Pods Manifest.lock */,
 				A21594221B94D79300F2F665 /* Sources */,
 				A21594231B94D79300F2F665 /* Frameworks */,
 				A21594241B94D79300F2F665 /* Headers */,
 				A21594251B94D79300F2F665 /* Resources */,
+				BC7C36E77FB161FCC3B4E407 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -210,6 +247,84 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		29AC65C3CC78109D5C6DD1D5 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DeferredTests/Pods-DeferredTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7863DE2DE9458183D76C2AD1 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DeferredTests/Pods-DeferredTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9D6523477047201666DF3D12 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BC7C36E77FB161FCC3B4E407 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Deferred/Pods-Deferred-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F34AB8870E1C14A423C35EB9 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		50AA9E8A1CDA77470035B484 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -244,6 +359,7 @@
 /* Begin XCBuildConfiguration section */
 		50AA9E971CDA77470035B484 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BECA328F5C1DC24C5F322E12 /* Pods-DeferredTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				INFOPLIST_FILE = DeferredTests/Info.plist;
@@ -257,6 +373,7 @@
 		};
 		50AA9E981CDA77470035B484 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 166A819405548CD6F4523895 /* Pods-DeferredTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				INFOPLIST_FILE = DeferredTests/Info.plist;
@@ -359,6 +476,7 @@
 		};
 		A215943C1B94D79300F2F665 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC7C23C67665FC88C164414A /* Pods-Deferred.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -377,6 +495,7 @@
 		};
 		A215943D1B94D79300F2F665 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 039D3031DFEC6C794A96F89F /* Pods-Deferred.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
