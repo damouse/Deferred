@@ -12,38 +12,38 @@ import XCTest
 class DeferredTest: XCTestCase {
     // Abstract sets didSucceed appropriately after fire is called
     func testSuccessFlagSet() {
-        var d = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({}))
+        var d = AbstractDeferred(asSuccess: true, handler: Closure.wrap({}))
         d.callback([])
         XCTAssert(d.didSucceed != nil && d.didSucceed!)
         
-        d = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({}))
+        d = AbstractDeferred(asSuccess: true, handler: Closure.wrap({}))
         d.errback([])
         XCTAssert(d.didSucceed != nil && !d.didSucceed!)
         
-        d = AAbstractDeferred(asSuccess: false, handler: Closure.wrap({}))
+        d = AbstractDeferred(asSuccess: false, handler: Closure.wrap({}))
         d.callback([])
         XCTAssert(d.didSucceed != nil && d.didSucceed!)
         
-        d = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({}))
+        d = AbstractDeferred(asSuccess: true, handler: Closure.wrap({}))
         d.errback([])
         XCTAssert(d.didSucceed != nil && !d.didSucceed!)
     }
     
     // Abstract sets results appropriately after fire is called
     func testResultsSet() {
-        var d = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({}))
+        var d = AbstractDeferred(asSuccess: true, handler: Closure.wrap({}))
         d.callback([])
         XCTAssert(d.results != nil)
         
-        d = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({}))
+        d = AbstractDeferred(asSuccess: true, handler: Closure.wrap({}))
         d.errback([])
         XCTAssert(d.results != nil)
         
-        d = AAbstractDeferred(asSuccess: false, handler: Closure.wrap({}))
+        d = AbstractDeferred(asSuccess: false, handler: Closure.wrap({}))
         d.callback([])
         XCTAssert(d.results != nil)
         
-        d = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({}))
+        d = AbstractDeferred(asSuccess: true, handler: Closure.wrap({}))
         d.errback([])
         XCTAssert(d.results != nil)
     }
@@ -53,7 +53,7 @@ class DeferredTest: XCTestCase {
     func testHandlerCallback() {
         let e1 = expectationWithDescription("")
         
-        let a = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({
+        let a = AbstractDeferred(asSuccess: true, handler: Closure.wrap({
             e1.fulfill()
         }))
         
@@ -64,7 +64,7 @@ class DeferredTest: XCTestCase {
     func testHandlerErrback() {
         let e1 = expectationWithDescription("")
         
-        let a = AAbstractDeferred(asSuccess: false, handler: Closure.wrap({
+        let a = AbstractDeferred(asSuccess: false, handler: Closure.wrap({
             e1.fulfill()
         }))
         
@@ -79,15 +79,15 @@ class DeferredTest: XCTestCase {
         let e2 = expectationWithDescription("")
         let e3 = expectationWithDescription("")
         
-        let a = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({
+        let a = AbstractDeferred(asSuccess: true, handler: Closure.wrap({
             e1.fulfill()
         }))
         
-        let b = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({
+        let b = AbstractDeferred(asSuccess: true, handler: Closure.wrap({
             e2.fulfill()
         }))
         
-        let c = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({
+        let c = AbstractDeferred(asSuccess: true, handler: Closure.wrap({
             e3.fulfill()
         }))
         
@@ -103,15 +103,15 @@ class DeferredTest: XCTestCase {
         let e2 = expectationWithDescription("")
         let e3 = expectationWithDescription("")
         
-        let a = AAbstractDeferred(asSuccess: false, handler: Closure.wrap({
+        let a = AbstractDeferred(asSuccess: false, handler: Closure.wrap({
             e1.fulfill()
         }))
         
-        let b = AAbstractDeferred(asSuccess: false, handler: Closure.wrap({
+        let b = AbstractDeferred(asSuccess: false, handler: Closure.wrap({
             e2.fulfill()
         }))
         
-        let c = AAbstractDeferred(asSuccess: false, handler: Closure.wrap({
+        let c = AbstractDeferred(asSuccess: false, handler: Closure.wrap({
             e3.fulfill()
         }))
         
@@ -128,15 +128,15 @@ class DeferredTest: XCTestCase {
         let e1 = expectationWithDescription("")
         let e2 = expectationWithDescription("")
         
-        let a = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({
+        let a = AbstractDeferred(asSuccess: true, handler: Closure.wrap({
             e1.fulfill()
         }))
         
-        let b = AAbstractDeferred(asSuccess: false, handler: Closure.wrap({
+        let b = AbstractDeferred(asSuccess: false, handler: Closure.wrap({
             XCTFail()
         }))
         
-        let c = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({
+        let c = AbstractDeferred(asSuccess: true, handler: Closure.wrap({
             e2.fulfill()
         }))
         
@@ -151,15 +151,15 @@ class DeferredTest: XCTestCase {
         let e1 = expectationWithDescription("")
         let e2 = expectationWithDescription("")
         
-        let a = AAbstractDeferred(asSuccess: false, handler: Closure.wrap({
+        let a = AbstractDeferred(asSuccess: false, handler: Closure.wrap({
             e1.fulfill()
         }))
         
-        let b = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({
+        let b = AbstractDeferred(asSuccess: true, handler: Closure.wrap({
             XCTFail()
         }))
         
-        let c = AAbstractDeferred(asSuccess: false, handler: Closure.wrap({
+        let c = AbstractDeferred(asSuccess: false, handler: Closure.wrap({
             e2.fulfill()
         }))
         
@@ -177,13 +177,13 @@ class DeferredTest: XCTestCase {
         let e1 = expectationWithDescription("")
         let e2 = expectationWithDescription("")
         
-        let a = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({
+        let a = AbstractDeferred(asSuccess: true, handler: Closure.wrap({
             e1.fulfill()
         }))
         
         a.callback([])
         
-        let b = AAbstractDeferred(asSuccess: true, handler: Closure.wrap({
+        let b = AbstractDeferred(asSuccess: true, handler: Closure.wrap({
             e2.fulfill()
         }))
 
@@ -196,17 +196,75 @@ class DeferredTest: XCTestCase {
         let e1 = expectationWithDescription("")
         let e2 = expectationWithDescription("")
         
-        let a = AAbstractDeferred(asSuccess: false, handler: Closure.wrap({
+        let a = AbstractDeferred(asSuccess: false, handler: Closure.wrap({
             e1.fulfill()
         }))
         
         a.errback([])
         
-        let b = AAbstractDeferred(asSuccess: false, handler: Closure.wrap({
+        let b = AbstractDeferred(asSuccess: false, handler: Closure.wrap({
             e2.fulfill()
         }))
         
         a.link(b)
+        
+        waitForExpectationsWithTimeout(1.0, handler:nil)
+    }
+    
+    
+    // When the handler returns a deferred, wait on the result of that deferred, then pass its results to the rest of the chain
+    func testNestedCallback() {
+        let e1 = expectationWithDescription("")
+        let e2 = expectationWithDescription("")
+        let e3 = expectationWithDescription("")
+        
+        let b = AbstractDeferred(asSuccess: true, handler: Closure.wrap({
+            e2.fulfill()
+        }))
+        
+        let a = AbstractDeferred(asSuccess: true, handler: Closure.wrap({ () -> AnyObject in
+            e1.fulfill()
+            return b
+        }))
+        
+        let c = AbstractDeferred(asSuccess: true, handler: Closure.wrap({
+            e3.fulfill()
+        }))
+        
+        a.link(c)
+        b.callback([])
+        a.callback([])
+        
+        waitForExpectationsWithTimeout(1.0, handler:nil)
+    }
+    
+    func testNestedErrback() {
+        let e1 = expectationWithDescription("Initial Deferred")
+        let e2 = expectationWithDescription("Nested deferred")
+        let e3 = expectationWithDescription("Error block")
+        
+        let b = AbstractDeferred(asSuccess: false, handler: Closure.wrap({
+            e2.fulfill()
+        }))
+        
+        let a = AbstractDeferred(asSuccess: true, handler: Closure.wrap({ () -> AnyObject in
+            e1.fulfill()
+            return b
+        }))
+        
+        let c = AbstractDeferred(asSuccess: true, handler: Closure.wrap({
+             XCTFail()
+        }))
+        
+        let d = AbstractDeferred(asSuccess: false, handler: Closure.wrap({
+            e3.fulfill()
+        }))
+        
+        a.link(c)
+        a.link(d)
+        
+        b.errback([])
+        a.callback([])
         
         waitForExpectationsWithTimeout(1.0, handler:nil)
     }

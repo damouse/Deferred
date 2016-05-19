@@ -67,7 +67,7 @@ class CallbackTest: XCTestCase {
             e1.fulfill()
         }
         
-        d.chain {
+        d.then { () -> Deferred<Void> in
             e2.fulfill()
             return f
         }.then {
@@ -88,7 +88,7 @@ class CallbackTest: XCTestCase {
         let d = Deferred<Void>()
         let e = Deferred<String>()
         
-        d.chain { () -> Deferred<String> in
+        d.then { () -> Deferred<String> in
             e1.fulfill()
             return e
         }.then { s in
@@ -120,8 +120,8 @@ class ErrbackTest: XCTestCase {
     }
 
     func testChain() {
-        let e1 = expectationWithDescription("")
-        let e2 = expectationWithDescription("")
+        let e1 = expectationWithDescription("First errback")
+        let e2 = expectationWithDescription("Second errback")
         let d = Deferred<Void>()
         
         d.error { e in
@@ -163,7 +163,7 @@ class ErrbackTest: XCTestCase {
             e1.fulfill()
         }
         
-        d.chain {
+        d.then { () -> Deferred<Void> in
             e2.fulfill()
             return f
         }.then {

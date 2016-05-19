@@ -9,96 +9,12 @@
 import Foundation
 
 
-class AbstractDeferred {
-    // Automatically invoke callbacks and errbacks if not nil when given arguments
-    var callbackArgs: [AnyObject]?
-    var errbackArgs: [AnyObject]?
-    
-    // If an invocation has already occured then the args properties are already set
-    // We should invoke immediately
-    var _callback: AnyClosureType?
-    var _errback: AnyClosureType?
-    
-    // The next link in the chain
-    var next: [AbstractDeferred] = []
-    
-    
-    func _then<T: AbstractDeferred>(fn: AnyClosureType, nextDeferred: T) -> T {
-        next.append(nextDeferred)
-        
-        // This isnt correct and likely doesnt account for the failure cases well
-        // if let a = callbackArgs { callback(a) }
-        if let a = callbackArgs { _ = try? fn.call(a) }
-        
-        // Also we don't want to replace the callback here if the args are set, want to branch the chain instead
-        _callback = fn
-        
-        return nextDeferred
-    }
-    
-    func _error<T: AbstractDeferred>(fn: AnyClosureType, nextDeferred: T) -> T {
-        next.append(nextDeferred)
-        _errback = fn
-        if let a = errbackArgs { errback(a) }
-        return nextDeferred
-    }
-    
-    func callback(args: [AnyObject]) {
-        callbackArgs = args
-        var ret: [AnyObject] = []
-        
-        // Not handled: error branching and chaining
-        if let cb = _callback { ret = try! cb.call(args) }
-        for n in next { n.callback(ret) }
-    }
-    
-    func errback(args: [AnyObject]) {
-        errbackArgs = args
-        if let eb = _errback { try! eb.call(args) }
-        for n in next { n.errback(args) }
-    }
-    
-    func error(fn: String -> ()) -> Deferred<Void> {
-        return _error(Closure.wrap(fn), nextDeferred: Deferred<Void>())
-    }
-}
-
-
-class Deferred<A>: AbstractDeferred {
-    func then(fn: A -> ())  -> Deferred<Void> {
-        return _then(Closure.wrap(fn), nextDeferred: Deferred<Void>())
-    }
-    
-    func chain(fn: () -> Deferred) -> Deferred<Void> {
-        let next = Deferred<Void>()
-        
-        _callback = Closure.wrap {
-            fn().next.append(next)
-        }
-        
-        return next
-    }
-    
-    
-    func chain<T>(fn: A -> Deferred<T>)  -> Deferred<T> {
-        let next = Deferred<T>()
-        
-        _callback = Closure.wrap { (a: A) in
-            fn(a).then { s in
-                next.callback([s as! AnyObject])
-            }.error { s in
-                next.errback([s])
-            }
-        }
-        
-        return next
-    }
-}
-
-
-// NEW CODE
 public protocol DeferredType {
+    // Connect the next deferred to this one as the next link in the chain. Next is called with the 
+    // positive or negative results of this
     func link<T: DeferredType>(next: T)
+    
+    // Fire this deferred as a success or failure, respectively
     func callback(args: [AnyObject])
     func errback(args: [AnyObject])
 }
@@ -117,7 +33,7 @@ public protocol DeferredType {
  the methods that set the handler closure and create new links in the chain, but subclasses are expected to
  provide their own implementation of these methods
  */
-public class AAbstractDeferred: DeferredType {
+public class AbstractDeferred: DeferredType {
     // The closure this deferred wraps, representing a success or failure callback
     var handler: AnyClosureType?
     public private(set) var isSuccess: Bool
@@ -167,8 +83,8 @@ public class AAbstractDeferred: DeferredType {
         // If we're being invoked with a deferred directly wait for that deferred to fire
         // WARN: by linking self to that deferred may refire our chain in strange ways
         if args.count == 1 && args[0] is DeferredType {
-            let nestedDeferred = args[0] as! DeferredType
-            nestedDeferred.link(self)
+            let nesteDeferred = args[0] as! DeferredType
+            nesteDeferred.link(self)
             return
         }
         
@@ -203,7 +119,7 @@ public class AAbstractDeferred: DeferredType {
 }
 
 
-public class DDeferred<A>: AAbstractDeferred {
+public class Deferred<A>: AbstractDeferred {
     
     // The inheritance chokes, so this is explicitly overriden
     public override init(asSuccess: Bool, handler: AnyClosureType?) {
@@ -216,20 +132,20 @@ public class DDeferred<A>: AAbstractDeferred {
     }
     
     
-    func error(fn: String -> ()) -> DDeferred<Void> {
-        let d = DDeferred<Void>(asSuccess: false, handler: Closure.wrap(fn))
+    func error(fn: String -> ()) -> Deferred<Void> {
+        let d = Deferred<Void>(asSuccess: false, handler: Closure.wrap(fn))
         link(d)
         return d
     }
     
-    func then(fn: A -> ())  -> DDeferred<Void> {
-        let d = DDeferred<Void>(asSuccess: true, handler: Closure.wrap(fn))
+    func then(fn: A -> ()) -> Deferred<Void> {
+        let d = Deferred<Void>(asSuccess: true, handler: Closure.wrap(fn))
         link(d)
         return d
     }
     
-    func then<T>(fn: A -> DDeferred<T>)  -> DDeferred<T> {
-        let d = DDeferred<T>(asSuccess: true, handler: Closure.wrap(fn))
+    func then<T>(fn: A -> Deferred<T>) -> Deferred<T> {
+        let d = Deferred<T>(asSuccess: true, handler: Closure.wrap(fn))
         link(d)
         return d
     }
