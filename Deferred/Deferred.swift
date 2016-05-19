@@ -97,6 +97,11 @@ class Deferred<A>: AbstractDeferred {
 
 
 // NEW CODE
+public protocol DeferredType {
+    func link<T: DeferredType>(next: T)
+    func callback(args: [AnyObject])
+    func errback(args: [AnyObject])
+}
 
 /**
  Implements basic shared deferrred functionality, including:
@@ -112,19 +117,19 @@ class Deferred<A>: AbstractDeferred {
  the methods that set the handler closure and create new links in the chain, but subclasses are expected to
  provide their own implementation of these methods
  */
-public class AAbstractDeferred {
+public class AAbstractDeferred: DeferredType {
     // The closure this deferred wraps, representing a success or failure callback
-    private var handler: AnyClosureType?
+    var handler: AnyClosureType?
     public private(set) var isSuccess: Bool
     
     // Success or failure state of handler as well as its results
     public private(set) var didSucceed: Bool?
-    private var results: [AnyObject]?
+    var results: [AnyObject]?
     
-    private var chain: [AAbstractDeferred] = []
+    var chain: [DeferredType] = []
     
     
-    public init(handler: AnyClosureType?, asSuccess: Bool) {
+    public init(asSuccess: Bool, handler: AnyClosureType?) {
         self.handler = handler
         isSuccess = asSuccess
     }
@@ -132,49 +137,16 @@ public class AAbstractDeferred {
     
     // Take a new handler and deferred, assign the handler to the deferred, and link the defferred to the chain
     // If this deferred already has results then fire the new deferred immediately
-    public func link<T: AAbstractDeferred>(next: T) -> T {
+    public func link<T: DeferredType>(next: T) {
         chain.append(next)
         
         if let a = results {
-            if next.isSuccess {
-                next.errback(a)
-            } else {
+            if didSucceed! {
                 next.callback(a)
+            } else {
+                next.errback(a)
             }
         }
-        
-        return next
-    }
-    
-    // Invoke this deferred with the given parameters
-    // didSucceed must be set before calling this method. This determines whether or not the propogation is a success or error
-    public func fire(args: [AnyObject], successfully: Bool) {
-        if handler != nil {
-            // Handler is only fired if isError and didSucceed are both true or both false
-            if isSuccess && successfully || !isSuccess && !successfully {
-                do {
-                    results = try handler!.call(args)
-                    
-                    // If this is an error deferred then calling the handler successfully doesnt mean success,
-                    // it means we continue to propagate errbacks down the chain
-                    didSucceed = isSuccess
-                } catch let e {
-                    // TODO: recover from errors and represent them in a more palatable way
-                    results = ["\(e)"]
-                    didSucceed = false
-                }
-            }
-            
-        } else {
-            // If no handler is assigned then just pass through the arguments as a "result"
-            // Since we don't have a handler, assume this is a success case
-            results = args
-            didSucceed = true
-        }
-        
-        // TODO: deferred value transformation
-        
-        for n in chain { n.fire(results!, successfully: didSucceed!) }
     }
     
     public func callback(args: [AnyObject]) {
@@ -184,29 +156,65 @@ public class AAbstractDeferred {
     public func errback(args: [AnyObject]) {
         fire(args, successfully: false)
     }
+    
+    // Invoke this deferred with the given parameters
+    // didSucceed must be set before calling this method. This determines whether or not the propogation is a success or error
+    func fire(args: [AnyObject], successfully: Bool) {
+        
+        // Handler is only fired if isError and didSucceed are both true or both false
+        if handler != nil && (isSuccess && successfully || !isSuccess && !successfully) {
+            do {
+                results = try handler!.call(args)
+                
+                // If this is an error deferred then calling the handler successfully doesnt mean success,
+                // it means we continue to propagate errbacks down the chain
+                didSucceed = isSuccess
+            } catch let e {
+                // TODO: recover from errors and represent them in a more palatable way
+                results = ["\(e)"]
+                didSucceed = false
+            }
+        } else {
+            // If no handler is assigned then just pass through the arguments as a "result"
+            // Since we don't have a handler, assume this is a success case
+            results = args
+            didSucceed = successfully
+        }
+        
+        // If the returned value is a deferred then we can attach cb and errback blocks to it here
+        // Propogation is deferred until those blocks fire
+        
+        for n in chain {
+            if didSucceed! {
+                n.callback(results!)
+            } else {
+                n.errback(results!)
+            }
+        }
+    }
 }
 
 
 public class DDeferred<A>: AAbstractDeferred {
     
     // The inheritance chokes, so this is explicitly overriden
-    public override init(handler: AnyClosureType?, asSuccess: Bool) {
-        super.init(handler: handler, asSuccess: asSuccess)
+    public override init(asSuccess: Bool, handler: AnyClosureType?) {
+        super.init(asSuccess: asSuccess, handler: handler)
     }
     
     // This initializer is intended for users
     public convenience init() {
-        self.init(handler: nil, asSuccess: true)
+        self.init(asSuccess: true, handler: nil)
     }
     
     func error(fn: String -> ()) -> DDeferred<Void> {
-        let d = DDeferred<Void>(handler: Closure.wrap(fn), asSuccess: false)
+        let d = DDeferred<Void>(asSuccess: false, handler: Closure.wrap(fn))
         link(d)
         return d
     }
     
     func then(fn: A -> ())  -> DDeferred<Void> {
-        let d = DDeferred<Void>(handler: Closure.wrap(fn), asSuccess: true)
+        let d = DDeferred<Void>(asSuccess: true, handler: Closure.wrap(fn))
         link(d)
         return d
     }
