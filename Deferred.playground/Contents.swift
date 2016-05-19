@@ -50,7 +50,7 @@ public class AAbstractDeferred {
     public private(set) var didSucceed = false
     private var results: [AnyObject]?
     
-    private var chain: [AAbstractDeferred] = []
+    var chain: [AAbstractDeferred] = []
     
     
     public init(handler: AnyClosureType?, asSuccess: Bool) {
@@ -126,15 +126,39 @@ public class DDeferred<A>: AAbstractDeferred {
     public convenience init() {
         self.init(handler: nil, asSuccess: true)
     }
-    
-    func error(fn: String -> ()) -> DDeferred<Void> {
-        let d = DDeferred<Void>(handler: Closure.wrap(fn), asSuccess: false)
+
+    // Type constrained then
+    func then(fn: A -> ())  -> DDeferred<Void> {
+        let d = DDeferred<Void>(handler: Closure.wrap(fn), asSuccess: true)
         link(d)
         return d
     }
     
-    func then(fn: A -> ())  -> DDeferred<Void> {
-        let d = DDeferred<Void>(handler: Closure.wrap(fn), asSuccess: true)
+    // Nested deferred
+    func then<T>(fn: A -> DDeferred<T>)  -> DDeferred<T> {
+//        var curriedHandler: AnyClosureType!
+//        
+//        if A.self == Void.self {
+//            _callback = Closure.wrap {
+//                fn(() as! A).next.append(next)
+//            }
+//        } else {
+//            _callback = Closure.wrap { (a: A) in
+//                fn(a).then { s in
+//                    s is Void ? next.callback([]) : next.callback([s as! AnyObject])
+//                    }.error { s in
+//                        next.errback([s])
+//                }
+//            }
+//        }
+//        
+        let d = DDeferred<T>(handler: Closure.wrap(fn), asSuccess: true)
+        link(d)
+        return d
+    }
+    
+    func error(fn: String -> ()) -> DDeferred<Void> {
+        let d = DDeferred<Void>(handler: Closure.wrap(fn), asSuccess: false)
         link(d)
         return d
     }
@@ -148,6 +172,10 @@ d.then {
 }
 
 d.callback([])
+
+
+
+
 
 
 

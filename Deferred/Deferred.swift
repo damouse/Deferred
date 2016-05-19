@@ -159,7 +159,18 @@ public class AAbstractDeferred: DeferredType {
     
     // Invoke this deferred with the given parameters
     // didSucceed must be set before calling this method. This determines whether or not the propogation is a success or error
+    //
+    // WARN: when a nested deferred is returned lazy links are going to immediately fire with the deferred instead of rerunning it.
+    // Not a bug, just make sure this behavior is inteded
     func fire(args: [AnyObject], successfully: Bool) {
+        
+        // If we're being invoked with a deferred directly wait for that deferred to fire
+        // WARN: by linking self to that deferred may refire our chain in strange ways
+        if args.count == 1 && args[0] is DeferredType {
+            let nestedDeferred = args[0] as! DeferredType
+            nestedDeferred.link(self)
+            return
+        }
         
         // Handler is only fired if isError and didSucceed are both true or both false
         if handler != nil && (isSuccess && successfully || !isSuccess && !successfully) {
@@ -170,7 +181,7 @@ public class AAbstractDeferred: DeferredType {
                 // it means we continue to propagate errbacks down the chain
                 didSucceed = isSuccess
             } catch let e {
-                // TODO: recover from errors and represent them in a more palatable way
+                // TODO: recover from errors and represent them real pretty like
                 results = ["\(e)"]
                 didSucceed = false
             }
@@ -180,9 +191,6 @@ public class AAbstractDeferred: DeferredType {
             results = args
             didSucceed = successfully
         }
-        
-        // If the returned value is a deferred then we can attach cb and errback blocks to it here
-        // Propogation is deferred until those blocks fire
         
         for n in chain {
             if didSucceed! {
@@ -207,6 +215,7 @@ public class DDeferred<A>: AAbstractDeferred {
         self.init(asSuccess: true, handler: nil)
     }
     
+    
     func error(fn: String -> ()) -> DDeferred<Void> {
         let d = DDeferred<Void>(asSuccess: false, handler: Closure.wrap(fn))
         link(d)
@@ -215,6 +224,12 @@ public class DDeferred<A>: AAbstractDeferred {
     
     func then(fn: A -> ())  -> DDeferred<Void> {
         let d = DDeferred<Void>(asSuccess: true, handler: Closure.wrap(fn))
+        link(d)
+        return d
+    }
+    
+    func then<T>(fn: A -> DDeferred<T>)  -> DDeferred<T> {
+        let d = DDeferred<T>(asSuccess: true, handler: Closure.wrap(fn))
         link(d)
         return d
     }
