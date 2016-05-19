@@ -24,11 +24,11 @@ public enum ClosureError : ErrorType, CustomStringConvertible {
 }
 
 // Any possible closure. This allows you to create lists like [AnyClosure] where each of the internal closures have their own signatures
-protocol AnyClosureType {
+public protocol AnyClosureType {
     func call(args: [AnyObject]) throws -> [AnyObject]
 }
 
-protocol ClosureType {
+public protocol ClosureType {
     associatedtype ParameterTypes
     associatedtype ReturnTypes
     var handler: ParameterTypes -> ReturnTypes { get }
