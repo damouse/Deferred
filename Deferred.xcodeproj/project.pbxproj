@@ -161,10 +161,10 @@
 			isa = PBXGroup;
 			children = (
 				50A3135B1CDAAEBA007D0B7F /* AnyClosure.swift */,
-				A215942A1B94D79300F2F665 /* Deferred.h */,
 				A21594411B94D7CD00F2F665 /* Deferred.swift */,
 				50A3135D1CDAAEE4007D0B7F /* Convertible.swift */,
 				50FEE1061CED4A0100CA5DF3 /* DSON.swift */,
+				A215942A1B94D79300F2F665 /* Deferred.h */,
 				A215942C1B94D79300F2F665 /* Info.plist */,
 			);
 			path = Deferred;
