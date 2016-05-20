@@ -90,7 +90,7 @@ public class Closure {
         return BaseClosure(fn: fn).setExecutor { a in
             if a.count != 2 { throw ClosureError.BadNumberOfArguments(expected: 2, actual: a.count) }
             let ret = fn(try convert(a[0], to: A.self), try convert(a[1], to: B.self))
-            return [ret as! AnyObject]
+            return R.self == Void.self ? [] : [ret as! AnyObject]
         }
     }
     
@@ -98,7 +98,7 @@ public class Closure {
         return BaseClosure(fn: fn).setExecutor { a in
             if a.count != 3 { throw ClosureError.BadNumberOfArguments(expected: 3, actual: a.count) }
             let ret = fn(try convert(a[0], to: A.self), try convert(a[1], to: B.self), try convert(a[2], to: C.self))
-            return [ret as! AnyObject]
+            return R.self == Void.self ? [] : [ret as! AnyObject]
         }
     }
 }
