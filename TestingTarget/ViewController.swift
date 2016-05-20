@@ -15,15 +15,15 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         print("Tester loaded")
         
-        let raw = "{\"menu\": {\n  \"id\": \"file\",\n  \"value\": \"File\",\n  \"popup\": {\n    \"menuitem\": [\n      {\"value\": \"New\", \"onclick\": \"CreateNewDoc()\"},\n      {\"value\": \"Open\", \"onclick\": \"OpenDoc()\"},\n      {\"value\": \"Close\", \"onclick\": \"CloseDoc()\"}\n    ]\n  }\n}}".dataUsingEncoding(NSUTF8StringEncoding)
+        let d = Deferred<Void>()
         
-        let json = JSON(data: raw!)
+        d.error { e in
+            print("first error")
+        }.error { e in
+            print("second error")
+        }
         
-        print(json)
-        
-        let dict = json["menu"].dictionaryObject!
-        
-        print("Dict: \(dict["popup"].dynamicType)")
+        d.errback([""])
     }
 }
 

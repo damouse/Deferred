@@ -93,6 +93,12 @@ public class AbstractDeferred: DeferredType {
             do {
                 results = try handler!.call(args)
                 
+                // The final goal is to have errors return values and let the chain transform or conditionally handle them. 
+                // For now the same error argument string is always passed around. Not the biggest fan of this, but there you go 
+                if !isSuccess {
+                    results = args
+                }
+                
                 // If this is an error deferred then calling the handler successfully doesnt mean success,
                 // it means we continue to propagate errbacks down the chain
                 didSucceed = isSuccess
@@ -132,19 +138,19 @@ public class Deferred<A>: AbstractDeferred {
     }
     
     
-    func error(fn: String -> ()) -> Deferred<Void> {
+    public func error(fn: String -> ()) -> Deferred<Void> {
         let d = Deferred<Void>(asSuccess: false, handler: Closure.wrap(fn))
         link(d)
         return d
     }
     
-    func then(fn: A -> ()) -> Deferred<Void> {
+    public func then(fn: A -> ()) -> Deferred<Void> {
         let d = Deferred<Void>(asSuccess: true, handler: Closure.wrap(fn))
         link(d)
         return d
     }
     
-    func then<T>(fn: A -> Deferred<T>) -> Deferred<T> {
+    public func then<T>(fn: A -> Deferred<T>) -> Deferred<T> {
         let d = Deferred<T>(asSuccess: true, handler: Closure.wrap(fn))
         link(d)
         return d
