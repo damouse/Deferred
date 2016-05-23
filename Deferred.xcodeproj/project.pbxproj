@@ -16,6 +16,7 @@
 		50BA17F41CEE328300B34CE4 /* BaseDeferredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA17F31CEE328300B34CE4 /* BaseDeferredTests.swift */; };
 		50BA17F81CF391F900B34CE4 /* TypedDeferred.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA17F71CF391F900B34CE4 /* TypedDeferred.swift */; };
 		50BA17FA1CF3978100B34CE4 /* JSONDeferred.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA17F91CF3978100B34CE4 /* JSONDeferred.swift */; };
+		50BA17FC1CF39BF100B34CE4 /* AlamoFire+Deferred.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA17FB1CF39BF100B34CE4 /* AlamoFire+Deferred.swift */; };
 		50FEE0F71CED464E00CA5DF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEE0F61CED464E00CA5DF3 /* AppDelegate.swift */; };
 		50FEE0F91CED464E00CA5DF3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEE0F81CED464E00CA5DF3 /* ViewController.swift */; };
 		50FEE0FC1CED464E00CA5DF3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50FEE0FA1CED464E00CA5DF3 /* Main.storyboard */; };
@@ -56,6 +57,7 @@
 		50BA17F31CEE328300B34CE4 /* BaseDeferredTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseDeferredTests.swift; path = ../../deferred/DeferredTests/BaseDeferredTests.swift; sourceTree = "<group>"; };
 		50BA17F71CF391F900B34CE4 /* TypedDeferred.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TypedDeferred.swift; path = ../../deferred/Deferred/TypedDeferred.swift; sourceTree = "<group>"; };
 		50BA17F91CF3978100B34CE4 /* JSONDeferred.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONDeferred.swift; path = ../../deferred/DeferredTests/JSONDeferred.swift; sourceTree = "<group>"; };
+		50BA17FB1CF39BF100B34CE4 /* AlamoFire+Deferred.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AlamoFire+Deferred.swift"; path = "../../deferred/Deferred/AlamoFire+Deferred.swift"; sourceTree = "<group>"; };
 		50FEE0F41CED464E00CA5DF3 /* TestingTarget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestingTarget.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50FEE0F61CED464E00CA5DF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50FEE0F81CED464E00CA5DF3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 		A21594291B94D79300F2F665 /* Deferred */ = {
 			isa = PBXGroup;
 			children = (
+				50BA17FB1CF39BF100B34CE4 /* AlamoFire+Deferred.swift */,
 				50A3135B1CDAAEBA007D0B7F /* AnyClosure.swift */,
 				A21594411B94D7CD00F2F665 /* Deferred.swift */,
 				50BA17F71CF391F900B34CE4 /* TypedDeferred.swift */,
@@ -488,6 +491,7 @@
 				50A3135C1CDAAEBA007D0B7F /* AnyClosure.swift in Sources */,
 				50BA17F81CF391F900B34CE4 /* TypedDeferred.swift in Sources */,
 				50FEE1071CED4A0100CA5DF3 /* DSON.swift in Sources */,
+				50BA17FC1CF39BF100B34CE4 /* AlamoFire+Deferred.swift in Sources */,
 				50A3135E1CDAAEE4007D0B7F /* Convertible.swift in Sources */,
 				A21594421B94D7CD00F2F665 /* Deferred.swift in Sources */,
 			);

@@ -9,20 +9,33 @@
 import UIKit
 import Deferred
 import SwiftyJSON
+import Alamofire
+
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Tester loaded")
         
+        let url = "http://jsonplaceholder.typicode.com/posts/1"
         
-        let d = JSONDeferred()
-        
-        d.json("alpha", "beta") { (a: String, b: Int) in
-            print("Have \(a) \(b)")
+        Alamofire.request(.GET, url).json("title") { (post: String) -> () in
+            print("Have post with title: \(post)")
+        }.error { e in
+            print("Error occured: \(e)")
         }
         
-        d.callback([["alpha": "hello", "beta": 1]])
+//        Alamofire.request(.GET, "http://jsonplaceholder.typicode.com/posts/1", parameters: ["foo": "bar"])
+//            .responseJSON { response in
+//                print(response.request)  // original URL request
+//                print(response.response) // URL response
+//                print(response.data)     // server data
+//                print(response.result)   // result of response serialization
+//                
+//                if let JSON = response.result.value {
+//                    print("JSON: \(JSON)")
+//                }
+//        }
     }
 }
 

@@ -39,7 +39,7 @@ public class JSONDeferred: BaseTypedDeferred {
     override public init() {}
     
     // The special sauce in this class. Maps a list of one element, a dictionary, into an ordered list of arguments that match the
-    // closure's order as dictated by the "then" functions. 
+    // closure's order as dictated by the "json" functions.
     //
     // Args must have one object, it must be a dictionary, and number of keys passed into "then" must be present within the dict.
     // If any of these conditions are not met then the errback is fired
@@ -128,3 +128,7 @@ public class DeferredTwo<A, B>: BaseTypedDeferred {
         return convenienceLink(Closure.wrap(fn), isSuccess: true, next: Deferred<T>())
     }
 }
+
+
+
+
