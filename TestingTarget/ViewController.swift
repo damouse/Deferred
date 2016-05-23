@@ -15,15 +15,14 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         print("Tester loaded")
         
-        let d = Deferred<Void>()
         
-        d.error { e in
-            print("first error")
-        }.error { e in
-            print("second error")
+        let d = JSONDeferred()
+        
+        d.json("alpha", "beta") { (a: String, b: Int) in
+            print("Have \(a) \(b)")
         }
         
-        d.errback([""])
+        d.callback([["alpha": "hello", "beta": 1]])
     }
 }
 

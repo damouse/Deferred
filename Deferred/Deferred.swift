@@ -12,12 +12,13 @@ import Foundation
 public protocol DeferredType {
     // Connect the next deferred to this one as the next link in the chain. Next is called with the 
     // positive or negative results of this
-    func link<T: DeferredType>(next: T) -> T
+    func link<T: DeferredType>(next: T)
     
     // Fire this deferred as a success or failure, respectively
     func callback(args: [AnyObject])
     func errback(args: [AnyObject])
 }
+
 
 /**
  Implements basic shared deferrred functionality, including:
@@ -36,7 +37,7 @@ public protocol DeferredType {
 public class AbstractDeferred: DeferredType {
     // The closure this deferred wraps, representing a success or failure callback
     var handler: AnyClosureType?
-    public private(set) var isSuccess: Bool
+    var isSuccess: Bool = false
     
     // Success or failure state of handler as well as its results
     public private(set) var didSucceed: Bool?
@@ -45,16 +46,10 @@ public class AbstractDeferred: DeferredType {
     var chain: [DeferredType] = []
     
     
-    public init(asSuccess: Bool, handler: AnyClosureType?) {
-        self.handler = handler
-        isSuccess = asSuccess
-    }
-    
-    
     // Take a new handler and deferred, assign the handler to the deferred, and link the defferred to the chain
     // If this deferred already has results then fire the new deferred immediately
     // Returns the deferred passed in for convenience
-    public func link<T: DeferredType>(next: T) -> T {
+    public func link<T: DeferredType>(next: T) {
         chain.append(next)
         
         if let a = results {
@@ -64,7 +59,15 @@ public class AbstractDeferred: DeferredType {
                 next.errback(a)
             }
         }
-        
+    }
+    
+    // This is a convenience method written to make deferred linking cleaner to write in subclasses.
+    // Because of the generic shotgun approach that subclasses take, these four lines are repeated *a lot*. Overrideing 
+    // inits may work, but require all subclasses to have their own inits as well.
+    public func convenienceLink<T: AbstractDeferred>(function: AnyClosureType, isSuccess: Bool, next: T) -> T {
+        next.isSuccess = isSuccess
+        next.handler = function
+        link(next)
         return next
     }
     
@@ -128,61 +131,41 @@ public class AbstractDeferred: DeferredType {
 }
 
 
-// Deferreds can take any kind of arguments or returns, which is a little scary
-// The intended way for customizing this behavior is by putting generic constraints on subclasses
 
-// This is the most open ended one and accepts anything for its first "then"
 
-public class JSONDeferred: AbstractDeferred {
-    public convenience init() {
-        self.init(asSuccess: true, handler: nil)
-    }
-    
-    public func error(fn: String -> ()) -> Deferred<Void> {
-        let d = Deferred<Void>(asSuccess: false, handler: Closure.wrap(fn))
-        return link(d)
-    }
-    
-    // These two methods accept anything
-    public func then<A>(keyOrder: String..., fn: A -> ()) -> Deferred<Void> {
-        let d = Deferred<Void>(asSuccess: true, handler: Closure.wrap(fn))
-        return link(d)
-    }
-    
-    public func then<A>(keyOrder: String..., fn: A -> Deferred<A>) -> Deferred<A> {
-        let d = Deferred<A>(asSuccess: true, handler: Closure.wrap(fn))
-        return link(d)
-    }
-}
 
-public class Deferred<A>: AbstractDeferred {
-    
-    // The inheritance chokes, so this is explicitly overriden
-    public override init(asSuccess: Bool, handler: AnyClosureType?) {
-        super.init(asSuccess: asSuccess, handler: handler)
-    }
-    
-    // This initializer is intended for users and constructs a "root" chain
-    public convenience init() {
-        self.init(asSuccess: true, handler: nil)
-    }
-    
-    
-    public func error(fn: String -> ()) -> Deferred<Void> {
-        let d = Deferred<Void>(asSuccess: false, handler: Closure.wrap(fn))
-        return link(d)
-    }
-    
-    public func then(fn: A -> ()) -> Deferred<Void> {
-        let d = Deferred<Void>(asSuccess: true, handler: Closure.wrap(fn))
-        return link(d)
-    }
-    
-    public func then<T>(fn: A -> Deferred<T>) -> Deferred<T> {
-        let d = Deferred<T>(asSuccess: true, handler: Closure.wrap(fn))
-        return link(d)
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
