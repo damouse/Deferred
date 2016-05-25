@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import AnyFunction
 
 public protocol DeferredType {
     // Connect the next deferred to this one as the next link in the chain. Next is called with the 

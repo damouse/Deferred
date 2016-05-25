@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AnyFunction
 
 public enum JSONDeferredError : ErrorType, CustomStringConvertible {
     case BadArgumentNumber(count: Int)

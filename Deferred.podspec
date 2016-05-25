@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
     s.name         = "Deferred"
     s.version      = "1.0.0"
-    s.summary      = "Key-Value Coding (KVC) for native Swift classes and structs"
+    s.summary      = "Deferreds for swift"
     s.description  = <<-DESC
-                        Deferred enables Key-Value Coding (KVC) for native Swift classes and structs.
+                        Deferreds for Swift heavily inspired by Python Twisted's deferreds
                         DESC
 
     s.homepage     = "https://github.com/damouse/Deferred"
@@ -17,4 +17,5 @@ Pod::Spec.new do |s|
     
     s.dependency 'SwiftyJSON', '~> 2.3.1'
     s.dependency 'Alamofire', '~> 3.4'
+    s.dependency 'AnyFunction', '~> 1.0.0'
 end

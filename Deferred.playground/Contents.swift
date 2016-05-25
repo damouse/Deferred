@@ -34,22 +34,41 @@ import Foundation
 //}
 
 
-
-func t<T>(type: T.Type) {
-    print(T.self)
-    T.self == Void.self
+class Dog {
+    var age = 12
+    
+    func bark() {
+        print("Im \(age)")
+    }
 }
 
-t(Void.self)
+protocol Base {
+    var age: Int { get set }
+}
+
+protocol Mortal: Base {
+    associatedtype Animal
+}
+
+extension Mortal {
+    mutating func grow() {
+        age += 1
+    }
+    
+    func create() -> Animal.Type {
+        return Animal.self
+    }
+}
 
 
+extension Dog: Mortal {
+    typealias Animal = Dog
+}
 
+var d = Dog()
+d.grow()
+d.bark()
 
-
-
-
-
-
-
+d.create()
 
 

@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		508AE7D71CEBA38E0008C248 /* ConversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508AE7D61CEBA38E0008C248 /* ConversionTests.swift */; };
-		508AE7DC1CED0C000008C248 /* ClosureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508AE7DB1CED0C000008C248 /* ClosureTests.swift */; };
-		50A3135C1CDAAEBA007D0B7F /* AnyClosure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A3135B1CDAAEBA007D0B7F /* AnyClosure.swift */; };
-		50A3135E1CDAAEE4007D0B7F /* Convertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A3135D1CDAAEE4007D0B7F /* Convertible.swift */; };
 		50AA9E911CDA77470035B484 /* DeferredAcceptanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AA9E901CDA77470035B484 /* DeferredAcceptanceTests.swift */; };
 		50AA9EA11CDA792B0035B484 /* Deferred.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21594271B94D79300F2F665 /* Deferred.framework */; };
 		50BA17F41CEE328300B34CE4 /* BaseDeferredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA17F31CEE328300B34CE4 /* BaseDeferredTests.swift */; };
@@ -22,7 +18,6 @@
 		50FEE0FC1CED464E00CA5DF3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50FEE0FA1CED464E00CA5DF3 /* Main.storyboard */; };
 		50FEE0FE1CED464E00CA5DF3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50FEE0FD1CED464E00CA5DF3 /* Assets.xcassets */; };
 		50FEE1011CED464E00CA5DF3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50FEE0FF1CED464E00CA5DF3 /* LaunchScreen.storyboard */; };
-		50FEE1071CED4A0100CA5DF3 /* DSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEE1061CED4A0100CA5DF3 /* DSON.swift */; };
 		8E1C1E871DD367C9A9A0F0D5 /* Pods_DeferredTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9475600DC321B5B9686A086 /* Pods_DeferredTests.framework */; };
 		A215942B1B94D79300F2F665 /* Deferred.h in Headers */ = {isa = PBXBuildFile; fileRef = A215942A1B94D79300F2F665 /* Deferred.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A21594421B94D7CD00F2F665 /* Deferred.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21594411B94D7CD00F2F665 /* Deferred.swift */; };
@@ -47,10 +42,6 @@
 		25CE13C3F7BC1E5201D611F3 /* Pods-TestingTarget.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestingTarget.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestingTarget/Pods-TestingTarget.debug.xcconfig"; sourceTree = "<group>"; };
 		2FF87E07AFCB77A38BD6DF0A /* Pods_TestingTarget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestingTarget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CF6EAF3F13C3BD321C6F721 /* Pods_Deferred.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Deferred.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		508AE7D61CEBA38E0008C248 /* ConversionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversionTests.swift; path = ../../deferred/DeferredTests/ConversionTests.swift; sourceTree = "<group>"; };
-		508AE7DB1CED0C000008C248 /* ClosureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClosureTests.swift; path = ../../deferred/DeferredTests/ClosureTests.swift; sourceTree = "<group>"; };
-		50A3135B1CDAAEBA007D0B7F /* AnyClosure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyClosure.swift; sourceTree = "<group>"; };
-		50A3135D1CDAAEE4007D0B7F /* Convertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Convertible.swift; path = ../../deferred/Deferred/Convertible.swift; sourceTree = "<group>"; };
 		50AA9E8E1CDA77470035B484 /* DeferredTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeferredTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50AA9E901CDA77470035B484 /* DeferredAcceptanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeferredAcceptanceTests.swift; sourceTree = "<group>"; };
 		50AA9E921CDA77470035B484 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -65,7 +56,6 @@
 		50FEE0FD1CED464E00CA5DF3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		50FEE1001CED464E00CA5DF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		50FEE1021CED464E00CA5DF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		50FEE1061CED4A0100CA5DF3 /* DSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DSON.swift; sourceTree = "<group>"; };
 		95DF59A63521E1C30B38024E /* Pods-TestingTarget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestingTarget.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestingTarget/Pods-TestingTarget.release.xcconfig"; sourceTree = "<group>"; };
 		A21594271B94D79300F2F665 /* Deferred.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Deferred.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A215942A1B94D79300F2F665 /* Deferred.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Deferred.h; sourceTree = "<group>"; };
@@ -113,8 +103,6 @@
 				50AA9E901CDA77470035B484 /* DeferredAcceptanceTests.swift */,
 				50BA17F91CF3978100B34CE4 /* JSONDeferred.swift */,
 				50BA17F31CEE328300B34CE4 /* BaseDeferredTests.swift */,
-				508AE7D61CEBA38E0008C248 /* ConversionTests.swift */,
-				508AE7DB1CED0C000008C248 /* ClosureTests.swift */,
 				50AA9E921CDA77470035B484 /* Info.plist */,
 			);
 			path = DeferredTests;
@@ -171,11 +159,8 @@
 			isa = PBXGroup;
 			children = (
 				50BA17FB1CF39BF100B34CE4 /* AlamoFire+Deferred.swift */,
-				50A3135B1CDAAEBA007D0B7F /* AnyClosure.swift */,
 				A21594411B94D7CD00F2F665 /* Deferred.swift */,
 				50BA17F71CF391F900B34CE4 /* TypedDeferred.swift */,
-				50A3135D1CDAAEE4007D0B7F /* Convertible.swift */,
-				50FEE1061CED4A0100CA5DF3 /* DSON.swift */,
 				A215942A1B94D79300F2F665 /* Deferred.h */,
 				A215942C1B94D79300F2F665 /* Info.plist */,
 			);
@@ -469,9 +454,7 @@
 			files = (
 				50BA17FA1CF3978100B34CE4 /* JSONDeferred.swift in Sources */,
 				50AA9E911CDA77470035B484 /* DeferredAcceptanceTests.swift in Sources */,
-				508AE7D71CEBA38E0008C248 /* ConversionTests.swift in Sources */,
 				50BA17F41CEE328300B34CE4 /* BaseDeferredTests.swift in Sources */,
-				508AE7DC1CED0C000008C248 /* ClosureTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,11 +471,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50A3135C1CDAAEBA007D0B7F /* AnyClosure.swift in Sources */,
 				50BA17F81CF391F900B34CE4 /* TypedDeferred.swift in Sources */,
-				50FEE1071CED4A0100CA5DF3 /* DSON.swift in Sources */,
 				50BA17FC1CF39BF100B34CE4 /* AlamoFire+Deferred.swift in Sources */,
-				50A3135E1CDAAEE4007D0B7F /* Convertible.swift in Sources */,
 				A21594421B94D7CD00F2F665 /* Deferred.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

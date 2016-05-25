@@ -12,38 +12,19 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-// Wrapped in a class with statics for convenience. I don't want the free methods floating around in my namespace
-// or the developers namespace (as it would if they import alamore and Deferred and dont explicitly specify the package when calling 
-// these methods
-public class Deferredfire {
-    public func request(method: Alamofire.Method, _ URLString: URLStringConvertible, parameters: [String: AnyObject]? = nil, encoding: ParameterEncoding = .URL, headers: [String: String]? = nil) -> Request {
-        return Manager.sharedInstance.request(
-            method,
-            URLString,
-            parameters: parameters,
-            encoding: encoding,
-            headers: headers
-        )
-    }
-}
-
 // Extend the request object as returned by Alamo to accept deferreds
 public extension Request {
-    func hello() {
-        print("hi")
-    }
-    
     func json<A>(keyOne: String, fn: A -> ()) -> JSONDeferred {
         let d = JSONDeferred()
         d.json(keyOne, fn: fn)
         
-        // reassign the request handler with a forwarder
+        // reassign the request handler with a forwarder into the Deferred object
         responseData() { r in
             if r.result.error != nil {
                 d.errback([r.result.error!.description])
             }
             
-            // I'm not convinced we should do our own JSON work here, but sticking with it for testing
+            // I'm not convinced we should do our own parsing here, but sticking with it for testing
             let json = JSON(data: r.data!)
             
             guard let dict = json.dictionaryObject else {

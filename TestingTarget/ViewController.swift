@@ -11,6 +11,7 @@ import Deferred
 import SwiftyJSON
 import Alamofire
 
+// Tests hit the sample API at http://jsonplaceholder.typicode.com/
 
 class ViewController: UIViewController {
     override func viewDidLoad() {

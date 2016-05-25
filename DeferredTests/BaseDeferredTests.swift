@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import AnyFunction
 @testable import Deferred
 
 // Exposes the private property and a utility init not meant to be used directly
