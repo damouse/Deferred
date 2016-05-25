@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-    s.name         = "Deferred"
+    s.name         = "SwiftDeferred"
     s.version      = "1.0.0"
     s.summary      = "Deferreds for swift"
     s.description  = <<-DESC
