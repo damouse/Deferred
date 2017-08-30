@@ -82,6 +82,7 @@ class CallbackTest: XCTestCase {
     
     // Nested callbacks with generic constrains
     func testParam() {
+        print("DO I GET LOG MESSAGES HERE?")
         let e1 = expectation(description: "")
         let e2 = expectation(description: "")
         

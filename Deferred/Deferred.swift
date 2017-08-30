@@ -85,6 +85,7 @@ open class AbstractDeferred: DeferredType {
     // WARN: when a nested deferred is returned lazy links are going to immediately fire with the deferred instead of rerunning it.
     // Not a bug, just make sure this behavior is inteded
     func fire(_ args: [Any], successfully: Bool) {
+        print("Fire invoked with: \(args)")
         
         // If we're being invoked with a deferred directly wait for that deferred to fire
         // WARN: by linking self to that deferred may refire our chain in strange ways
