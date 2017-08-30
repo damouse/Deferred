@@ -6,7 +6,7 @@ import Foundation
 
 // This no longer works after importing external pods :(
 // This file is here for inline testing
-//import Deferred
+import Deferred
 //
 //
 //// Oooh, may have made a mistake. We'd like to take ANY deferred, the caller doesn't care about the types!
