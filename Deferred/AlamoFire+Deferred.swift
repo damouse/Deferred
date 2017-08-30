@@ -9,32 +9,32 @@
 //  No changes to Alamo, other than returning deferreds instead of accepting handler blocks
 
 import Foundation
-import Alamofire
-import SwiftyJSON
+//import Alamofire
+//import SwiftyJSON
 
 // Extend the request object as returned by Alamo to accept deferreds
-public extension Request {
-    func json<A>(keyOne: String, fn: A -> ()) -> JSONDeferred {
-        let d = JSONDeferred()
-        d.json(keyOne, fn: fn)
-        
-        // reassign the request handler with a forwarder into the Deferred object
-        responseData() { r in
-            if r.result.error != nil {
-                d.errback([r.result.error!.description])
-            }
-            
-            // I'm not convinced we should do our own parsing here, but sticking with it for testing
-            let json = JSON(data: r.data!)
-            
-            guard let dict = json.dictionaryObject else {
-                d.errback(["Couldn't unpack the JSON"])
-                return
-            }
-            
-            d.callback(dict)
-        }
-        
-        return d
-    }
-}
+//public extension Request {
+//    func json<A>(_ keyOne: String, fn: (A) -> ()) -> JSONDeferred {
+//        let d = JSONDeferred()
+//        d.json(keyOne, fn: fn)
+//        
+//        // reassign the request handler with a forwarder into the Deferred object
+//        responseData() { r in
+//            if r.result.error != nil {
+//                d.errback([r.result.error!.description])
+//            }
+//            
+//            // I'm not convinced we should do our own parsing here, but sticking with it for testing
+//            let json = JSON(data: r.data!)
+//            
+//            guard let dict = json.dictionaryObject else {
+//                d.errback(["Couldn't unpack the JSON"])
+//                return
+//            }
+//            
+//            d.callback(dict)
+//        }
+//        
+//        return d
+//    }
+//}

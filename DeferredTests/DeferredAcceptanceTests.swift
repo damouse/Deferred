@@ -13,7 +13,7 @@ import XCTest
 // Success propogation and and handling
 class CallbackTest: XCTestCase {
     func testDefault() {
-        let e1 = expectationWithDescription("")
+        let e1 = expectation(description: "")
         let d = Deferred<Void>()
         
         d.then {
@@ -21,12 +21,12 @@ class CallbackTest: XCTestCase {
         }
         
         d.callback([])
-        waitForExpectationsWithTimeout(1.0, handler:nil)
+        waitForExpectations(timeout: 1.0, handler:nil)
     }
 
     func testChain() {
-        let e1 = expectationWithDescription("")
-        let e2 = expectationWithDescription("")
+        let e1 = expectation(description: "")
+        let e2 = expectation(description: "")
         
         let d = Deferred<Void>()
 
@@ -37,12 +37,12 @@ class CallbackTest: XCTestCase {
         }
         
         d.callback([])
-        waitForExpectationsWithTimeout(1.0, handler:nil)
+        waitForExpectations(timeout: 1.0, handler:nil)
     }
     
     // immediately fire callback handler if the chain has already been fired
     func testLazy() {
-        let e1 = expectationWithDescription("")
+        let e1 = expectation(description: "")
         let d = Deferred<Void>()
         
         d.callback([])
@@ -51,14 +51,14 @@ class CallbackTest: XCTestCase {
             e1.fulfill()
         }
         
-        waitForExpectationsWithTimeout(1.0, handler:nil)
+        waitForExpectations(timeout: 1.0, handler:nil)
     }
     
     // Waiting for an internal deferred to resolve
     func testNested() {
-        let e1 = expectationWithDescription("")
-        let e2 = expectationWithDescription("")
-        let e3 = expectationWithDescription("")
+        let e1 = expectation(description: "")
+        let e2 = expectation(description: "")
+        let e3 = expectation(description: "")
         
         let d = Deferred<Void>()
         let f = Deferred<Void>()
@@ -77,13 +77,13 @@ class CallbackTest: XCTestCase {
         d.callback([])
         f.callback([])
         
-        waitForExpectationsWithTimeout(1.0, handler:nil)
+        waitForExpectations(timeout: 1.0, handler:nil)
     }
     
     // Nested callbacks with generic constrains
     func testParam() {
-        let e1 = expectationWithDescription("")
-        let e2 = expectationWithDescription("")
+        let e1 = expectation(description: "")
+        let e2 = expectation(description: "")
         
         let d = Deferred<Void>()
         let e = Deferred<String>()
@@ -99,14 +99,14 @@ class CallbackTest: XCTestCase {
         d.callback([])
         e.callback(["Done"])
         
-        waitForExpectationsWithTimeout(1.0, handler:nil)
+        waitForExpectations(timeout: 1.0, handler:nil)
     }
 }
 
 // Error propogation and handling
 class ErrbackTest: XCTestCase {
     func testDefault() {
-        let e1 = expectationWithDescription("")
+        let e1 = expectation(description: "")
         let d = Deferred<Void>()
 
         d.error { e in
@@ -116,12 +116,12 @@ class ErrbackTest: XCTestCase {
         
         d.errback(["Fail"])
 
-        waitForExpectationsWithTimeout(1.0, handler:nil)
+        waitForExpectations(timeout: 1.0, handler:nil)
     }
 
     func testChain() {
-        let e1 = expectationWithDescription("First errback")
-        let e2 = expectationWithDescription("Second errback")
+        let e1 = expectation(description: "First errback")
+        let e2 = expectation(description: "Second errback")
         let d = Deferred<Void>()
         
         d.error { e in
@@ -134,11 +134,11 @@ class ErrbackTest: XCTestCase {
         
         d.errback(["Fail"])
 
-        waitForExpectationsWithTimeout(1.0, handler:nil)
+        waitForExpectations(timeout: 1.0, handler:nil)
     }
     
     func testLazy() {
-        let e1 = expectationWithDescription("")
+        let e1 = expectation(description: "")
         let d = Deferred<Void>()
         
         d.errback(["Fail"])
@@ -148,13 +148,13 @@ class ErrbackTest: XCTestCase {
             e1.fulfill()
         }
         
-        waitForExpectationsWithTimeout(1.0, handler:nil)
+        waitForExpectations(timeout: 1.0, handler:nil)
     }
 
     func testNested() {
-        let e1 = expectationWithDescription("")
-        let e2 = expectationWithDescription("")
-        let e3 = expectationWithDescription("")
+        let e1 = expectation(description: "")
+        let e2 = expectation(description: "")
+        let e3 = expectation(description: "")
         
         let d = Deferred<Void>()
         let f = Deferred<Void>()
@@ -175,7 +175,7 @@ class ErrbackTest: XCTestCase {
         d.callback([])
         f.errback(["Reason"])
         
-        waitForExpectationsWithTimeout(1.0, handler:nil)
+        waitForExpectations(timeout: 1.0, handler:nil)
     }
 }
 

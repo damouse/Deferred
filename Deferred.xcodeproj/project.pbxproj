@@ -198,12 +198,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50AA9E961CDA77470035B484 /* Build configuration list for PBXNativeTarget "DeferredTests" */;
 			buildPhases = (
-				9D6523477047201666DF3D12 /* 📦 Check Pods Manifest.lock */,
+				9D6523477047201666DF3D12 /* [CP] Check Pods Manifest.lock */,
 				50AA9E8A1CDA77470035B484 /* Sources */,
 				50AA9E8B1CDA77470035B484 /* Frameworks */,
 				50AA9E8C1CDA77470035B484 /* Resources */,
-				7863DE2DE9458183D76C2AD1 /* 📦 Embed Pods Frameworks */,
-				29AC65C3CC78109D5C6DD1D5 /* 📦 Copy Pods Resources */,
+				7863DE2DE9458183D76C2AD1 /* [CP] Embed Pods Frameworks */,
+				29AC65C3CC78109D5C6DD1D5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -219,12 +219,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50FEE1051CED464E00CA5DF3 /* Build configuration list for PBXNativeTarget "TestingTarget" */;
 			buildPhases = (
-				E10C6C9B5E32A29863A01177 /* 📦 Check Pods Manifest.lock */,
+				E10C6C9B5E32A29863A01177 /* [CP] Check Pods Manifest.lock */,
 				50FEE0F01CED464E00CA5DF3 /* Sources */,
 				50FEE0F11CED464E00CA5DF3 /* Frameworks */,
 				50FEE0F21CED464E00CA5DF3 /* Resources */,
-				11CC6B37BD06F354B5167A81 /* 📦 Embed Pods Frameworks */,
-				A72FFEF124DCD8E2BA2444FF /* 📦 Copy Pods Resources */,
+				11CC6B37BD06F354B5167A81 /* [CP] Embed Pods Frameworks */,
+				A72FFEF124DCD8E2BA2444FF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -239,12 +239,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A215943B1B94D79300F2F665 /* Build configuration list for PBXNativeTarget "Deferred" */;
 			buildPhases = (
-				F34AB8870E1C14A423C35EB9 /* 📦 Check Pods Manifest.lock */,
+				F34AB8870E1C14A423C35EB9 /* [CP] Check Pods Manifest.lock */,
 				A21594221B94D79300F2F665 /* Sources */,
 				A21594231B94D79300F2F665 /* Frameworks */,
 				A21594241B94D79300F2F665 /* Headers */,
 				A21594251B94D79300F2F665 /* Resources */,
-				BC7C36E77FB161FCC3B4E407 /* 📦 Copy Pods Resources */,
+				BC7C36E77FB161FCC3B4E407 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -267,12 +267,14 @@
 				TargetAttributes = {
 					50AA9E8D1CDA77470035B484 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0830;
 					};
 					50FEE0F31CED464E00CA5DF3 = {
 						CreatedOnToolsVersion = 7.3;
 					};
 					A21594261B94D79300F2F665 = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0830;
 					};
 				};
 			};
@@ -325,29 +327,32 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		11CC6B37BD06F354B5167A81 /* 📦 Embed Pods Frameworks */ = {
+		11CC6B37BD06F354B5167A81 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TestingTarget/Pods-TestingTarget-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AnyFunction/AnyFunction.framework",
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AnyFunction.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TestingTarget/Pods-TestingTarget-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		29AC65C3CC78109D5C6DD1D5 /* 📦 Copy Pods Resources */ = {
+		29AC65C3CC78109D5C6DD1D5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -355,44 +360,50 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DeferredTests/Pods-DeferredTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7863DE2DE9458183D76C2AD1 /* 📦 Embed Pods Frameworks */ = {
+		7863DE2DE9458183D76C2AD1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-DeferredTests/Pods-DeferredTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AnyFunction/AnyFunction.framework",
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AnyFunction.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DeferredTests/Pods-DeferredTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9D6523477047201666DF3D12 /* 📦 Check Pods Manifest.lock */ = {
+		9D6523477047201666DF3D12 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DeferredTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A72FFEF124DCD8E2BA2444FF /* 📦 Copy Pods Resources */ = {
+		A72FFEF124DCD8E2BA2444FF /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -400,14 +411,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TestingTarget/Pods-TestingTarget-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BC7C36E77FB161FCC3B4E407 /* 📦 Copy Pods Resources */ = {
+		BC7C36E77FB161FCC3B4E407 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -415,34 +426,40 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Deferred/Pods-Deferred-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E10C6C9B5E32A29863A01177 /* 📦 Check Pods Manifest.lock */ = {
+		E10C6C9B5E32A29863A01177 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TestingTarget-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F34AB8870E1C14A423C35EB9 /* 📦 Check Pods Manifest.lock */ = {
+		F34AB8870E1C14A423C35EB9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Deferred-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -518,6 +535,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.damouse.DeferredTests;
 				PRODUCT_MODULE_NAME = DeferredTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -532,6 +550,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.damouse.DeferredTests;
 				PRODUCT_MODULE_NAME = DeferredTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -668,6 +687,7 @@
 				PRODUCT_NAME = Deferred;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -686,6 +706,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.damouse.Deferred;
 				PRODUCT_NAME = Deferred;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

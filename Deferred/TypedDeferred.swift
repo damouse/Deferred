@@ -9,24 +9,24 @@
 import Foundation
 import AnyFunction
 
-public enum JSONDeferredError : ErrorType, CustomStringConvertible {
-    case BadArgumentNumber(count: Int)
-    case BadArgumentType(type: Any.Type)
-    case KeyNotFound(expected: String, dict: [String: AnyObject])
+public enum JSONDeferredError : Error, CustomStringConvertible {
+    case badArgumentNumber(count: Int)
+    case badArgumentType(type: Any.Type)
+    case keyNotFound(expected: String, dict: [String: AnyObject])
     
     public var description: String {
         switch self {
-        case .BadArgumentNumber(count: let count): return "JSON deferreds expect one argument passed into \"callback\", got \(count)"
-        case .BadArgumentType(type: let type): return "JSONdeferred requires a dictionary, but got \(type)"
-        case .KeyNotFound(expected: let expected, dict: let dict): return "Could not find key \(expected) in \(dict)"
+        case .badArgumentNumber(count: let count): return "JSON deferreds expect one argument passed into \"callback\", got \(count)"
+        case .badArgumentType(type: let type): return "JSONdeferred requires a dictionary, but got \(type)"
+        case .keyNotFound(expected: let expected, dict: let dict): return "Could not find key \(expected) in \(dict)"
         }
     }
 }
 
 
-public class BaseTypedDeferred: AbstractDeferred {
-    public func error(fn: String -> ()) -> Deferred<Void> {
-        return convenienceLink(Closure.wrap(fn), isSuccess: false, next: Deferred<Void>())
+open class BaseTypedDeferred: AbstractDeferred {
+    open func error(_ fn: @escaping (String) -> ()) -> Deferred<Void> {
+        return convenienceLink(Closure.wrapOne(fn), isSuccess: false, next: Deferred<Void>())
     }
 }
 
@@ -35,7 +35,7 @@ public class BaseTypedDeferred: AbstractDeferred {
 
 // This is the most open ended one and accepts anything for its first "then"
 
-public class JSONDeferred: BaseTypedDeferred {
+open class JSONDeferred: BaseTypedDeferred {
     var keys: [String] = []
     override public init() {}
     
@@ -44,24 +44,24 @@ public class JSONDeferred: BaseTypedDeferred {
     //
     // Args must have one object, it must be a dictionary, and number of keys passed into "then" must be present within the dict.
     // If any of these conditions are not met then the errback is fired
-    public override func callback(args: [AnyObject]) {
+    open override func callback(_ args: [Any]) {
         if args.count != 1 {
-            return errback([JSONDeferredError.BadArgumentNumber(count: args.count).description])
+            return errback([JSONDeferredError.badArgumentNumber(count: args.count).description])
         }
         
         guard let json = args[0] as? [String: AnyObject] else {
-            return errback([JSONDeferredError.BadArgumentType(type: args[0].dynamicType).description])
+            return errback([JSONDeferredError.badArgumentType(type: type(of: args[0])).description])
         }
         
         callback(json)
     }
     
-    public func callback(json: [String: AnyObject]) {
+    open func callback(_ json: [String: AnyObject]) {
         var results: [AnyObject] = []
         
         for k in keys {
             guard let value = json[k] else {
-                return errback([JSONDeferredError.KeyNotFound(expected: k, dict: json).description])
+                return errback([JSONDeferredError.keyNotFound(expected: k, dict: json).description])
             }
             
             results.append(value)
@@ -73,60 +73,60 @@ public class JSONDeferred: BaseTypedDeferred {
     
     // These methods accept a list of positional strings that represent keys in a JSON object. The order of the
     // keys must match the order of parameters in the closure
-    public func json(fn: () -> ()) -> Deferred<Void> {
-        return convenienceLink(Closure.wrap(fn), isSuccess: true, next: Deferred<Void>())
+    open func json(_ fn: @escaping () -> ()) -> Deferred<Void> {
+        return convenienceLink(Closure.wrapOne(fn), isSuccess: true, next: Deferred<Void>())
     }
     
-    public func json(fn: () -> Deferred<Void>) -> Deferred<Void> {
-        return convenienceLink(Closure.wrap(fn), isSuccess: true, next: Deferred<Void>())
+    open func json(_ fn: @escaping () -> Deferred<Void>) -> Deferred<Void> {
+        return convenienceLink(Closure.wrapOne(fn), isSuccess: true, next: Deferred<Void>())
     }
     
     // One
-    public func json<A>(keyOne: String, fn: A -> ()) -> Deferred<Void> {
+    open func json<A>(_ keyOne: String, fn: @escaping (A) -> ()) -> Deferred<Void> {
         keys = [keyOne]
-        return convenienceLink(Closure.wrap(fn), isSuccess: true, next: Deferred<Void>())
+        return convenienceLink(Closure.wrapOne(fn), isSuccess: true, next: Deferred<Void>())
     }
     
-    public func json<A>(keyOne: String, fn: A -> Deferred<A>) -> Deferred<A> {
+    open func json<A>(_ keyOne: String, fn: @escaping (A) -> Deferred<A>) -> Deferred<A> {
         keys = [keyOne]
-        return convenienceLink(Closure.wrap(fn), isSuccess: true, next: Deferred<A>())
+        return convenienceLink(Closure.wrapOne(fn), isSuccess: true, next: Deferred<A>())
     }
     
     // Two params
-    public func json<A, B>(keyOne: String, _ keyTwo: String,  fn: (A, B) -> ()) -> Deferred<Void> {
+    open func json<A, B>(_ keyOne: String, _ keyTwo: String, fn: @escaping (A, B) -> ()) -> Deferred<Void> {
         keys = [keyOne, keyTwo]
-        return convenienceLink(Closure.wrap(fn), isSuccess: true, next: Deferred<Void>())
+        return convenienceLink(Closure.wrapTwo(fn), isSuccess: true, next: Deferred<Void>())
     }
     
-    public func json<A, B>(keyOne: String, _ keyTwo: String,  fn: (A, B) -> DeferredTwo<A, B>) -> DeferredTwo<A, B> {
+    open func json<A, B>(_ keyOne: String, _ keyTwo: String,  fn: @escaping (A, B) -> DeferredTwo<A, B>) -> DeferredTwo<A, B> {
         keys = [keyOne, keyTwo]
-        return convenienceLink(Closure.wrap(fn), isSuccess: true, next: DeferredTwo<A, B>())
+        return convenienceLink(Closure.wrapTwo(fn), isSuccess: true, next: DeferredTwo<A, B>())
     }
 }
 
 
 
 // All typed deferreds extend BaseTyped and essentially reimplement its "then" methods based on the number of generic parameters
-public class Deferred<A>: BaseTypedDeferred {
+open class Deferred<A>: BaseTypedDeferred {
     override public init() {}
     
-    public func then(fn: A -> ()) -> Deferred<Void> {
-        return convenienceLink(Closure.wrap(fn), isSuccess: true, next: Deferred<Void>())
+    open func then(_ fn: @escaping (A) -> ()) -> Deferred<Void> {
+        return convenienceLink(Closure.wrapOne(fn), isSuccess: true, next: Deferred<Void>())
     }
     
     // Oof, we're going to have to duplicate these, too...
-    public func then<T>(fn: A -> Deferred<T>) -> Deferred<T> {
-        return convenienceLink(Closure.wrap(fn), isSuccess: true, next: Deferred<T>())
+    open func then<T>(_ fn: @escaping (A) -> Deferred<T>) -> Deferred<T> {
+        return convenienceLink(Closure.wrapOne(fn), isSuccess: true, next: Deferred<T>())
     }
 }
 
-public class DeferredTwo<A, B>: BaseTypedDeferred {
-    public func then(fn: (A, B) -> ()) -> Deferred<Void> {
-        return convenienceLink(Closure.wrap(fn), isSuccess: true, next: Deferred<Void>())
+open class DeferredTwo<A, B>: BaseTypedDeferred {
+    open func then(_ fn: @escaping (A, B) -> ()) -> Deferred<Void> {
+        return convenienceLink(Closure.wrapTwo(fn), isSuccess: true, next: Deferred<Void>())
     }
     
-    public func then<T>(fn: (A, B) -> Deferred<T>) -> Deferred<T> {
-        return convenienceLink(Closure.wrap(fn), isSuccess: true, next: Deferred<T>())
+    open func then<T>(_ fn: @escaping (A, B) -> Deferred<T>) -> Deferred<T> {
+        return convenienceLink(Closure.wrapTwo(fn), isSuccess: true, next: Deferred<T>())
     }
 }
 
