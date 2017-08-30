@@ -8,8 +8,8 @@
 
 import UIKit
 import Deferred
-import SwiftyJSON
-import Alamofire
+//import SwiftyJSON
+//import Alamofire
 
 // Tests hit the sample API at http://jsonplaceholder.typicode.com/
 
@@ -18,13 +18,27 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         print("Tester loaded")
         
-        let url = "http://jsonplaceholder.typicode.com/posts/1"
         
-        Alamofire.request(.GET, url).json("title") { (post: String) -> () in
-            print("Have post with title: \(post)")
-        }.error { e in
-            print("Error occured: \(e)")
+        let d = Deferred<Void>()
+        let e = Deferred<String>()
+        
+        d.then { () -> Deferred<String> in
+            print("First deferred returning")
+            return e
+        }.then { s in
+            print("Second deferred firing ")
         }
+        
+        d.callback([])
+        e.callback(["Done"])
+
+//        let url = "http://jsonplaceholder.typicode.com/posts/1"
+//        
+//        Alamofire.request(.GET, url).json("title") { (post: String) -> () in
+//            print("Have post with title: \(post)")
+//        }.error { e in
+//            print("Error occured: \(e)")
+//        }
         
 //        Alamofire.request(.GET, "http://jsonplaceholder.typicode.com/posts/1", parameters: ["foo": "bar"])
 //            .responseJSON { response in

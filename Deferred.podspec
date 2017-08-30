@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name         = "SwiftDeferred"
-    s.version      = "1.0.0"
+    s.version      = "1.0.1"
     s.summary      = "Deferreds for swift"
     s.description  = <<-DESC
                         Deferreds for Swift heavily inspired by Python Twisted's deferreds
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
     s.source_files  = "Deferred", "Deferred/**/*.{swift,h,m}"
     s.requires_arc = true
     
-    s.dependency 'SwiftyJSON', '~> 2.3.1'
-    s.dependency 'Alamofire', '~> 3.4'
-    s.dependency 'AnyFunction', '~> 1.0.0'
+    # s.dependency 'SwiftyJSON', '~> 2.3.1'
+    # s.dependency 'Alamofire', '~> 3.4'
+    s.dependency 'AnyFunction', :git => "https://github.com/damouse/AnyFunction.git",
 end
